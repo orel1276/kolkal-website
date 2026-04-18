@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>KolKal | קולקל — קריינות AI מקצועית</title>
+<meta name="description" content="קולקל — סוכנות קריינות AI ישראלית. 10 קולות מקצועיים, שירות מנוהל, תוצאות תוך שעות."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#05050e;--ink2:#0b0b1a;--ink3:#111126;
+  --red:#e94560;--red2:#ff6b84;--redglow:rgba(233,69,96,.22);
+  --glass:rgba(255,255,255,.04);--border:rgba(255,255,255,.07);
+  --txt:#f0f0fa;--mute:#6b6b8a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Heebo',sans-serif;background:var(--ink);color:var(--txt);overflow-x:hidden;cursor:none}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--red);border-radius:99px}
+
+/* ── SCROLL PROGRESS ── */
+#progress{position:fixed;top:0;right:0;left:0;height:2px;background:linear-gradient(90deg,var(--red),var(--red2));transform-origin:right;transform:scaleX(0);z-index:9999;transition:transform .1s}
+
+/* ── CURSOR ── */
+#cur{position:fixed;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(50%,-50%);transition:width .25s,height .25s,opacity .25s}
+#curl{position:fixed;width:36px;height:36px;border:1.5px solid rgba(233,69,96,.5);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(50%,-50%);transition:width .2s,height .2s,border-color .2s}
+.cur-big #cur{width:18px;height:18px}
+.cur-big #curl{width:56px;height:56px;border-color:rgba(233,69,96,.25)}
+
+/* ── GRAIN ── */
+#grain{position:fixed;inset:0;pointer-events:none;z-index:9996;opacity:.032;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 6s steps(8) infinite}
+@keyframes gr{0%,100%{transform:translate(0,0)}12%{transform:translate(-4%,-5%)}25%{transform:translate(-8%,4%)}37%{transform:translate(4%,-9%)}50%{transform:translate(-4%,14%)}62%{transform:translate(-9%,4%)}75%{transform:translate(12%,0)}87%{transform:translate(0,9%)}}
+
+/* ── UTILS ── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 2.5rem}
+.eyebrow{display:flex;align-items:center;gap:.7rem;font-size:.72rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:1rem}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--red)}
+[data-r]{opacity:0;transform:translateY(44px);transition:opacity .95s cubic-bezier(.16,1,.3,1),transform .95s cubic-bezier(.16,1,.3,1)}
+[data-r].vis{opacity:1;transform:none}
+[data-r][data-d="1"]{transition-delay:.1s}[data-r][data-d="2"]{transition-delay:.2s}
+[data-r][data-d="3"]{transition-delay:.3s}[data-r][data-d="4"]{transition-delay:.4s}
+[data-r][data-d="5"]{transition-delay:.5s}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;inset-inline:0;z-index:600;padding:1.4rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.s{background:rgba(5,5,14,.88);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border);padding-block:.85rem}
+.logo{font-size:1.5rem;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:.15rem}
+.logo-dot{width:7px;height:7px;background:var(--red);border-radius:50%;margin-bottom:9px;animation:bd 2s infinite}
+@keyframes bd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.25;transform:scale(.7)}}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.83rem;font-weight:600;color:rgba(240,240,250,.4);transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;right:0;width:0;height:1px;background:var(--red);transition:width .3s}
+.nav-links a:hover{color:#fff}.nav-links a:hover::after{width:100%}
+.nav-btn{background:none;border:1px solid rgba(233,69,96,.35);color:var(--txt);padding:.58rem 1.5rem;border-radius:99px;font-weight:700;font-size:.83rem;cursor:none;font-family:'Heebo',sans-serif;transition:all .3s;position:relative;overflow:hidden}
+.nav-btn::before{content:'';position:absolute;inset:0;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s;z-index:-1}
+.nav-btn:hover{color:#fff;border-color:var(--red)}.nav-btn:hover::before{transform:scaleX(1)}
+.ham{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:.3rem;z-index:700}
+.ham span{display:block;width:24px;height:1.5px;background:var(--txt);transition:all .3s;border-radius:2px}
+.ham.o span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.ham.o span:nth-child(2){opacity:0}
+.ham.o span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+.mob{position:fixed;inset:0;background:rgba(5,5,14,.97);backdrop-filter:blur(28px);z-index:650;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3rem;transform:translateY(-100%);transition:transform .55s cubic-bezier(.16,1,.3,1)}
+.mob.o{transform:none}
+.mob a{font-size:2rem;font-weight:900;color:rgba(255,255,255,.4);transition:color .25s;padding:.5rem 1.5rem;border-radius:12px}
+.mob a:hover,.mob a:active{color:#fff}
+
+/* ── HERO ── */
+.hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 7vh}
+#cvs{position:absolute;inset:0;z-index:0}
+.hero-mesh{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 70% 55% at 25% 0%,rgba(233,69,96,.13),transparent 60%),radial-gradient(ellipse 50% 50% at 85% 100%,rgba(120,40,200,.08),transparent 60%)}
+.hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:90px 90px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent)}
+
+/* Waveform hero visual */
+.hero-wave-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;width:min(800px,100vw);height:300px;opacity:.07;pointer-events:none}
+.hero-wave-wrap svg{width:100%;height:100%}
+
+.hero-content{position:relative;z-index:3;padding-top:140px}
+.hero-badge{display:inline-flex;align-items:center;gap:.55rem;border:1px solid rgba(233,69,96,.28);background:rgba(233,69,96,.07);border-radius:99px;padding:.4rem 1rem .4rem .65rem;font-size:.75rem;font-weight:700;letter-spacing:.04em;margin-bottom:2.5rem;backdrop-filter:blur(8px)}
+.badge-pulse{width:7px;height:7px;background:var(--red);border-radius:50%;position:relative}
+.badge-pulse::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--red);animation:rpl 2s infinite}
+@keyframes rpl{0%{transform:scale(1);opacity:.8}100%{transform:scale(2.5);opacity:0}}
+
+/* Split text hero */
+.hero-h1{font-size:clamp(3.2rem,8.5vw,7.5rem);font-weight:900;line-height:.95;letter-spacing:-.04em;margin-bottom:2.2rem;overflow:visible}
+.h1-line{display:block;overflow:hidden;line-height:1.05}
+.h1-word{display:inline-block;transform:translateY(110%);opacity:0;transition:transform .9s cubic-bezier(.16,1,.3,1),opacity .9s cubic-bezier(.16,1,.3,1)}
+.h1-word.in{transform:translateY(0);opacity:1}
+.h1-w1{transition-delay:.05s}.h1-w2{transition-delay:.15s}.h1-w3{transition-delay:.3s}
+.h1-w4{transition-delay:.45s}.h1-w5{transition-delay:.6s}
+.line-outline{-webkit-text-stroke:1.5px rgba(255,255,255,.2);color:transparent}
+.line-red{background:linear-gradient(90deg,var(--red),var(--red2),var(--red));background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:hshift 4s linear infinite}
+@keyframes hshift{0%{background-position:0%}100%{background-position:200%}}
+
+.hero-row{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:end;margin-top:2.5rem}
+.hero-sub{font-size:1rem;color:var(--mute);line-height:1.85;max-width:420px}
+.hero-sub strong{color:#fff}
+.hero-btns{display:flex;gap:.8rem;margin-top:1.8rem;flex-wrap:wrap}
+
+/* Magnetic buttons */
+.btn-mag{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 2.2rem;border-radius:99px;font-weight:800;font-size:.92rem;cursor:none;border:none;font-family:'Heebo',sans-serif;transition:box-shadow .3s,transform .2s;position:relative;overflow:hidden}
+.btn-primary{background:var(--red);color:#fff;box-shadow:0 0 40px rgba(233,69,96,.3),0 4px 16px rgba(0,0,0,.4)}
+.btn-primary:hover{box-shadow:0 0 70px rgba(233,69,96,.55),0 8px 28px rgba(0,0,0,.5)}
+.btn-ghost{background:var(--glass);color:rgba(255,255,255,.65);border:1px solid var(--border);backdrop-filter:blur(12px)}
+.btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.07)}
+/* Ripple */
+.btn-mag .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.25);transform:scale(0);animation:ripple .55s linear;pointer-events:none}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+
+.hero-stats{display:flex;flex-direction:column;gap:1.2rem;min-width:200px}
+.hstat{padding-right:1.2rem;border-right:1px solid var(--border);position:relative}
+.hstat::before{content:'';position:absolute;top:0;right:-1px;width:1px;height:45%;background:var(--red)}
+.hstat-n{font-size:2.4rem;font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--red)}
+.hstat-l{font-size:.72rem;color:var(--mute);margin-top:.25rem;font-weight:500;letter-spacing:.05em}
+
+.scroll-cue{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;z-index:3;opacity:.3}
+.scroll-cue span{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.scroll-line{width:1px;height:45px;background:linear-gradient(180deg,var(--red),transparent);animation:sl 2s ease-in-out infinite}
+@keyframes sl{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ── MARQUEE ── */
+.marquee{padding:1.8rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;background:rgba(233,69,96,.025)}
+.mtrack{display:flex;animation:mq 30s linear infinite;width:max-content}
+.mitem{display:inline-flex;align-items:center;gap:.9rem;padding:0 2.5rem;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);flex-shrink:0;white-space:nowrap}
+.mitem .sep{color:var(--red)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+
+/* ── HOW ── */
+.how{padding:130px 0;position:relative}
+.how::before{content:'';position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.how-title{font-size:clamp(1.9rem,4vw,3rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:5rem}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.steps::before{content:'';position:absolute;top:36px;right:10%;left:10%;height:1px;background:repeating-linear-gradient(90deg,var(--border) 0,var(--border) 6px,transparent 6px,transparent 14px)}
+.step{text-align:center;padding:0 .8rem}
+.step-c{width:72px;height:72px;border-radius:50%;background:var(--ink2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.8rem;position:relative;z-index:2;transition:all .45s cubic-bezier(.16,1,.3,1);font-size:1.4rem}
+.step:hover .step-c{border-color:var(--red);background:rgba(233,69,96,.1);box-shadow:0 0 0 8px rgba(233,69,96,.07),0 0 40px rgba(233,69,96,.18);transform:scale(1.12)}
+.step-n{position:absolute;top:-7px;left:-7px;width:22px;height:22px;background:var(--red);border-radius:50%;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;color:#fff}
+.step h3{font-size:.9rem;font-weight:800;margin-bottom:.5rem}
+.step p{font-size:.78rem;color:var(--mute);line-height:1.7}
+
+/* ── VOICES ── */
+.voices{padding:130px 0;background:var(--ink2);position:relative;overflow:hidden}
+.voices::before{content:'';position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,rgba(233,69,96,.4),transparent)}
+.vhead{margin-bottom:4rem}
+.vtitle{font-size:clamp(1.9rem,4vw,3rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:.8rem}
+.vscroll{overflow-x:auto;padding-bottom:1.5rem;margin:0 -2.5rem;padding:0 2.5rem 1.5rem;scrollbar-width:thin;scrollbar-color:var(--red) transparent;cursor:grab}
+.vscroll:active{cursor:grabbing}
+.vtrack{display:flex;gap:1.2rem;width:max-content;padding:1rem 0 .5rem}
+
+/* Voice card with 3D tilt */
+.vc{width:275px;flex-shrink:0;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:24px;padding:1.7rem;position:relative;overflow:hidden;transform-style:preserve-3d;transition:border-color .4s,box-shadow .4s}
+.vc::before{content:'';position:absolute;inset:0;border-radius:24px;background:linear-gradient(135deg,rgba(233,69,96,.1),transparent 55%);opacity:0;transition:opacity .4s}
+.vc:hover::before{opacity:1}
+.vc:hover{border-color:rgba(233,69,96,.4);box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 50px rgba(233,69,96,.1)}
+/* Glow spot on hover */
+.vc-glow{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(233,69,96,.15),transparent 70%);pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .3s;z-index:0}
+.vc:hover .vc-glow{opacity:1}
+
+/* CSS Avatar */
+.vc-av{width:58px;height:58px;border-radius:18px;position:relative;overflow:hidden;flex-shrink:0}
+.av-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.av-letter{font-size:1.5rem;font-weight:900;position:relative;z-index:2}
+.av-ring{position:absolute;inset:0;border-radius:18px;border:1px solid rgba(233,69,96,.3)}
+/* Unique gradients per voice */
+.av-adam{background:linear-gradient(135deg,#1a0a12,#2d0f1e)}
+.av-noam{background:linear-gradient(135deg,#0a1a2d,#0f2040)}
+.av-ron{background:linear-gradient(135deg,#0d1a10,#122415)}
+.av-liav{background:linear-gradient(135deg,#1a1200,#2d1f00)}
+.av-yonatan{background:linear-gradient(135deg,#1a0a1a,#280a28)}
+.av-mia{background:linear-gradient(135deg,#2d0a14,#1a0a12)}
+.av-shira{background:linear-gradient(135deg,#0a1428,#0a1428)}
+.av-noa{background:linear-gradient(135deg,#1a0a2d,#120a1e)}
+.av-roni{background:linear-gradient(135deg,#0a1a0a,#0f1e0f)}
+.av-tal{background:linear-gradient(135deg,#1a1028,#0e0a1e)}
+
+/* Animated inner glow for avatar */
+.av-orb{position:absolute;width:30px;height:30px;border-radius:50%;background:rgba(233,69,96,.4);filter:blur(12px);bottom:-5px;right:-5px;animation:ao 3s ease-in-out infinite}
+@keyframes ao{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:.3;transform:scale(1.3)}}
+
+.vc-top{display:flex;align-items:center;gap:.9rem;margin-bottom:1.3rem;position:relative;z-index:1}
+.vc-name{font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.vc-gender{font-size:.72rem;color:var(--mute);margin-top:.1rem}
+.vc-desc{font-size:.8rem;color:rgba(240,240,250,.5);line-height:1.7;margin-bottom:1.2rem;position:relative;z-index:1}
+.vc-tags{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:1.2rem;position:relative;z-index:1}
+.vtag{font-size:.65rem;font-weight:800;color:var(--red);background:rgba(233,69,96,.09);border:1px solid rgba(233,69,96,.18);border-radius:99px;padding:.18rem .6rem;letter-spacing:.03em}
+
+/* Voice waveform animated */
+.vc-wave{display:flex;align-items:center;gap:3px;height:30px;margin-bottom:1.1rem;position:relative;z-index:1}
+.vb{width:3px;border-radius:99px;background:linear-gradient(180deg,var(--red),rgba(233,69,96,.25));transition:height .3s}
+.vc:hover .vb{animation:vw 1.1s ease-in-out infinite}
+.vb:nth-child(1){height:8px}.vb:nth-child(2){height:15px;animation-delay:.06s}.vb:nth-child(3){height:22px;animation-delay:.12s}.vb:nth-child(4){height:16px;animation-delay:.18s}.vb:nth-child(5){height:26px;animation-delay:.24s}.vb:nth-child(6){height:19px;animation-delay:.3s}.vb:nth-child(7){height:13px;animation-delay:.36s}.vb:nth-child(8){height:21px;animation-delay:.42s}.vb:nth-child(9){height:11px;animation-delay:.48s}.vb:nth-child(10){height:17px;animation-delay:.54s}
+@keyframes vw{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.2)}}
+.vc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:.9rem;border-top:1px solid var(--border);position:relative;z-index:1}
+.play-btn{width:36px;height:36px;border-radius:50%;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0;position:relative;overflow:hidden}
+.play-btn::after{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(255,255,255,.15);transform:scale(0);animation:none}
+.play-btn:hover{transform:scale(1.15);box-shadow:0 0 22px rgba(233,69,96,.6)}
+.play-btn svg{width:12px;height:12px;fill:#fff;margin-right:-2px;position:relative;z-index:1}
+.play-lbl{font-size:.72rem;color:var(--mute);font-weight:600}
+
+/* ── WHY ── */
+.why{padding:130px 0}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start}
+.why-l{position:sticky;top:140px}
+.why-l h2{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.4rem}
+.why-l p{font-size:.92rem;color:var(--mute);line-height:1.85;margin-bottom:2.2rem}
+.feats{display:flex;flex-direction:column;gap:1rem}
+.feat{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;background:var(--glass);border:1px solid var(--border);border-radius:14px;transition:all .4s;cursor:none;position:relative;overflow:hidden}
+.feat::before{content:'';position:absolute;right:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,rgba(233,69,96,.06),transparent);transition:width .4s}
+.feat:hover{border-color:rgba(233,69,96,.28);transform:translateX(-4px)}.feat:hover::before{width:100%}
+.feat-ico{width:40px;height:40px;border-radius:10px;background:rgba(233,69,96,.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:transform .35s}
+.feat:hover .feat-ico{transform:scale(1.1) rotate(-5deg)}
+.feat h4{font-size:.88rem;font-weight:800;margin-bottom:.18rem}
+.feat p{font-size:.78rem;color:var(--mute);line-height:1.5}
+/* Compare */
+.cmp{background:var(--ink2);border:1px solid var(--border);border-radius:22px;overflow:hidden}
+.cmp-head{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:1rem 1.4rem;background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
+.cmp-head div{font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.cmp-head .ch-us{color:var(--red)}
+.cmp-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:.85rem 1.4rem;border-bottom:1px solid var(--border);font-size:.82rem;align-items:center;transition:background .2s}
+.cmp-row:last-child{border-bottom:none}.cmp-row:hover{background:rgba(255,255,255,.02)}
+.ct{color:rgba(240,240,250,.45);font-size:.78rem;font-weight:600}.cu{color:var(--red);font-weight:800}.cm{color:var(--mute);font-size:.76rem}
+
+/* ── PRICING ── */
+.pricing{padding:130px 0;background:var(--ink2);position:relative}
+.pricing::before{content:'';position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,rgba(233,69,96,.4),transparent)}
+.ptitle{font-size:clamp(1.9rem,4vw,3rem);font-weight:900;letter-spacing:-.03em;margin-bottom:.8rem}
+.pplans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;max-width:980px;margin:3.5rem auto 0}
+.plan{background:rgba(255,255,255,.028);border:1px solid var(--border);border-radius:24px;padding:2.2rem;position:relative;transition:all .4s;overflow:hidden}
+.plan::after{content:'';position:absolute;bottom:0;inset-inline:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);opacity:0;transition:opacity .4s}
+.plan:hover{transform:translateY(-6px);border-color:rgba(233,69,96,.22);box-shadow:0 30px 65px rgba(0,0,0,.35)}.plan:hover::after{opacity:1}
+.plan.hot{border-color:rgba(233,69,96,.32);background:linear-gradient(160deg,rgba(233,69,96,.06),rgba(255,255,255,.025) 60%)}.plan.hot::after{opacity:.5}
+.plan-pill{position:absolute;top:1.4rem;left:1.4rem;background:var(--red);color:#fff;font-size:.62rem;font-weight:900;padding:.22rem .7rem;border-radius:99px;letter-spacing:.07em;text-transform:uppercase}
+.plan-tier{font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:.9rem}
+.plan-price{display:flex;align-items:baseline;gap:.25rem;margin-bottom:.25rem}
+.p-cur{font-size:1.2rem;font-weight:700;color:var(--mute)}.p-amt{font-size:3rem;font-weight:900;line-height:1;letter-spacing:-.04em}
+.plan-sub{font-size:.78rem;color:var(--mute);margin-bottom:1.6rem;padding-bottom:1.4rem;border-bottom:1px solid var(--border)}
+.plan-fs{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.8rem}
+.pf{display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem}
+.pf-ck{width:16px;height:16px;border-radius:50%;background:rgba(233,69,96,.14);border:1px solid rgba(233,69,96,.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pf-ck::after{content:'✓';font-size:.5rem;color:var(--red);font-weight:900}
+.pf.off .pf-ck{background:rgba(255,255,255,.04);border-color:var(--border)}.pf.off .pf-ck::after{content:'—';color:var(--mute)}.pf.off span{color:var(--mute)}
+.plan-btn{display:block;text-align:center;padding:.85rem;border-radius:14px;font-weight:800;font-size:.88rem;transition:all .3s;cursor:none;border:none;font-family:'Heebo',sans-serif;width:100%;position:relative;overflow:hidden}
+.pb-solid{background:var(--red);color:#fff;box-shadow:0 0 30px rgba(233,69,96,.22)}.pb-solid:hover{box-shadow:0 0 55px rgba(233,69,96,.45);transform:translateY(-2px)}
+.pb-out{background:transparent;color:rgba(255,255,255,.55);border:1px solid var(--border)}.pb-out:hover{border-color:var(--red);color:#fff}
+
+/* ── TESTIMONIALS ── */
+.testi{padding:130px 0}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:4rem}
+.tc{background:var(--glass);border:1px solid var(--border);border-radius:22px;padding:1.8rem;position:relative;overflow:hidden;transition:all .4s}
+.tc::before{content:'';position:absolute;top:0;right:0;left:0;height:1px;background:linear-gradient(90deg,transparent,rgba(233,69,96,.3),transparent);opacity:0;transition:opacity .4s}
+.tc:hover{border-color:rgba(233,69,96,.18);transform:translateY(-5px);box-shadow:0 24px 55px rgba(0,0,0,.3)}.tc:hover::before{opacity:1}
+/* Big quote mark */
+.tc-qm{position:absolute;top:-.4rem;right:1.2rem;font-size:5rem;font-weight:900;color:var(--red);opacity:.07;font-family:serif;line-height:1;pointer-events:none}
+.tc-stars{color:var(--red);font-size:.82rem;letter-spacing:.08em;margin-bottom:.9rem}
+.tc-txt{font-size:.85rem;color:rgba(240,240,250,.55);line-height:1.82;margin-bottom:1.5rem;font-style:italic}
+.tc-au{display:flex;align-items:center;gap:.75rem}
+.tc-av{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--red),#c73090);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;flex-shrink:0}
+.tc-name{font-size:.85rem;font-weight:800}
+.tc-role{font-size:.72rem;color:var(--mute)}
+
+/* ── FAQ ── */
+.faq{padding:130px 0;background:var(--ink2);position:relative}
+.faq::before{content:'';position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,rgba(233,69,96,.4),transparent)}
+.faq-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:7rem;align-items:start}
+.faq-l{position:sticky;top:140px}
+.faq-l h2{font-size:clamp(1.9rem,3.5vw,2.7rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;margin-bottom:1.2rem}
+.faq-l p{color:var(--mute);font-size:.9rem;line-height:1.82;margin-bottom:1.8rem}
+.faq-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--glass);border:1px solid var(--border);color:rgba(255,255,255,.6);padding:.7rem 1.5rem;border-radius:99px;font-size:.82rem;font-weight:700;transition:all .3s;cursor:none;font-family:'Heebo',sans-serif}
+.faq-cta:hover{border-color:var(--red);color:var(--red)}
+.faq-items{display:flex;flex-direction:column}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:1.3rem 0;cursor:none;font-size:.92rem;font-weight:700;gap:1rem;transition:color .2s;user-select:none}
+.faq-q:hover{color:var(--red)}
+.faq-ic{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .35s;color:var(--mute);font-size:.88rem}
+.faq-item.open .faq-ic{border-color:var(--red);color:var(--red);background:rgba(233,69,96,.1);transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1)}
+.faq-ai{font-size:.85rem;color:var(--mute);line-height:1.88;padding-bottom:1.3rem}
+.faq-item.open .faq-a{max-height:220px}
+
+/* ── CTA FINAL ── */
+.ctaf{padding:140px 0;text-align:center;position:relative;overflow:hidden}
+.ctaf-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 120% at 50% 100%,rgba(233,69,96,.1),transparent 60%),radial-gradient(ellipse 50% 50% at 20% 20%,rgba(100,50,200,.055),transparent 55%)}
+.ctaf-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:70px 70px;mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black,transparent)}
+/* Big neon circle */
+.ctaf-orb{position:absolute;width:600px;height:600px;border-radius:50%;border:1px solid rgba(233,69,96,.07);top:50%;left:50%;transform:translate(-50%,-50%);animation:orb-r 12s linear infinite}
+.ctaf-orb2{position:absolute;width:400px;height:400px;border-radius:50%;border:1px solid rgba(233,69,96,.1);top:50%;left:50%;transform:translate(-50%,-50%);animation:orb-r 8s linear infinite reverse}
+@keyframes orb-r{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.ctaf h2{font-size:clamp(2.4rem,6vw,5rem);font-weight:900;line-height:.98;letter-spacing:-.04em;margin-bottom:1.4rem;position:relative}
+.ctaf p{font-size:1rem;color:var(--mute);max-width:460px;margin:0 auto 2.4rem;line-height:1.82;position:relative}
+.ctaf-btns{display:flex;justify-content:center;gap:.9rem;flex-wrap:wrap;position:relative}
+.btn-xl{display:inline-flex;align-items:center;gap:.7rem;padding:1.1rem 2.8rem;border-radius:99px;font-weight:800;font-size:.98rem;cursor:none;border:none;font-family:'Heebo',sans-serif;transition:all .35s;position:relative;overflow:hidden}
+.btn-xl-red{background:var(--red);color:#fff;box-shadow:0 0 55px rgba(233,69,96,.28)}
+.btn-xl-red:hover{box-shadow:0 0 90px rgba(233,69,96,.55);transform:translateY(-4px)}
+.btn-xl-ghost{background:var(--glass);color:rgba(255,255,255,.6);border:1px solid var(--border);backdrop-filter:blur(12px)}
+.btn-xl-ghost:hover{color:#fff;border-color:rgba(255,255,255,.18)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;background:var(--ink)}
+.fgrid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.flogo{font-size:1.5rem;font-weight:900;letter-spacing:-.03em;margin-bottom:.8rem}
+.flogo span{color:var(--red)}
+.fdesc{font-size:.8rem;color:var(--mute);line-height:1.75;max-width:220px}
+.fcol h5{font-size:.68rem;font-weight:800;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:1.1rem}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.fcol ul a{font-size:.8rem;color:var(--mute);transition:color .2s}.fcol ul a:hover{color:var(--red)}
+.fbot{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--border);font-size:.72rem;color:var(--mute);flex-wrap:wrap;gap:1rem}
+.frd{display:inline-block;width:5px;height:5px;background:var(--red);border-radius:50%;margin:0 .3rem;vertical-align:middle}
+
+/* Back to top */
+#tot{position:fixed;bottom:2.2rem;left:2.2rem;width:48px;height:48px;border-radius:50%;background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.28);cursor:none;z-index:400;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(16px);transition:all .4s;backdrop-filter:blur(12px)}
+#tot.show{opacity:1;transform:none}
+#tot:hover{background:var(--red);border-color:var(--red);box-shadow:0 0 30px rgba(233,69,96,.45)}
+#tot svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .why-grid,.faq-grid{grid-template-columns:1fr;gap:4rem}
+  .why-l,.faq-l{position:static}
+  .pplans{max-width:680px}
+}
+@media(max-width:900px){
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .steps::before{display:none}
+  .tgrid{grid-template-columns:1fr}
+  .pplans{grid-template-columns:1fr;max-width:440px}
+  .hero-row{grid-template-columns:1fr;gap:2rem}
+  .hero-stats{flex-direction:row;flex-wrap:wrap;gap:1rem 2rem;min-width:unset;width:100%;margin-top:1.5rem}
+  .hstat{flex:0 1 auto;padding-right:1.2rem}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .hero-wave-wrap{width:100%;max-width:100%;left:0;right:0;transform:translate(0,-50%)}
+}
+@media(max-width:640px){
+  .nav-links,.nav-btn{display:none}
+  .ham{display:flex}
+  .steps{grid-template-columns:repeat(2,1fr);gap:2rem 1rem}
+  .fgrid{grid-template-columns:1fr}
+  .wrap{padding:0 1.2rem}
+  nav{padding:1rem 1.2rem}
+  body{cursor:auto}
+  #cur,#curl{display:none}
+  .hero{padding:0 0 4vh;min-height:100svh}
+  .hero-content{padding-top:90px}
+  .hero-badge{font-size:.68rem;margin-bottom:1.8rem}
+  .hero-btns{flex-direction:column;align-items:stretch}
+  .btn-mag{justify-content:center}
+  .hero-sub{font-size:.9rem;max-width:100%}
+  .hero-stats{gap:.8rem 1.5rem}
+  .hstat-n{font-size:2rem}
+  .how,.voices,.why,.pricing,.testi,.faq{padding:90px 0}
+  .ctaf{padding:100px 0}
+  .how-title{margin-bottom:3.5rem}
+  .vscroll{margin:0 -1.2rem;padding:0 1.2rem 1.5rem}
+  .vc{width:260px}
+  .why-grid,.faq-grid{gap:3rem}
+  .feats{gap:.8rem}
+  .cmp-head div,.cmp-row>div{font-size:.72rem}
+  .tgrid{gap:1rem}
+  .ctaf-orb{width:320px;height:320px}
+  .ctaf-orb2{width:220px;height:220px}
+  .ctaf h2{font-size:clamp(1.9rem,9vw,3.5rem)}
+  .ctaf p{font-size:.9rem}
+  .fgrid{gap:2rem}
+  .fbot{flex-direction:column;text-align:center;gap:.7rem}
+  .tc{padding:1.4rem}
+  .pplans{gap:.9rem;max-width:100%}
+  .plan{padding:1.8rem}
+  .p-amt{font-size:2.6rem}
+  #tot{inset-inline-start:1.4rem;bottom:1.4rem;width:42px;height:42px}
+}
+@media(max-width:420px){
+  .steps{grid-template-columns:1fr}
+  .hero-h1{font-size:clamp(2.3rem,10vw,3.5rem)}
+  .hstat{flex-basis:calc(50% - 1rem)}
+  .why-l h2,.faq-l h2{font-size:1.75rem}
+  .faq-grid{gap:2.5rem}
+  .mob a{font-size:1.6rem}
+}
+
+/* ── RTL SPECIFIC FIXES ── */
+/* Horizontal slide direction: RTL cards / features slide inward */
+.feat:hover{transform:translateX(4px)}
+/* Numbered badge on voice cards uses logical position */
+.step-n{
+  top:-7px;
+  /* physical left removed — use logical: */
+  left:auto;
+  inset-inline-start:-7px;
+}
+/* Plan "popular" pill — logical position */
+.plan-pill{
+  top:1.4rem;
+  left:auto;
+  inset-inline-start:1.4rem;
+}
+/* Nav fill animation — in RTL fill should sweep from the right (start) */
+.nav-btn::before{transform-origin:right}
+/* Back-to-top button logical position */
+#tot{
+  bottom:2.2rem;
+  left:auto;
+  inset-inline-start:2.2rem;
+}
+/* Play SVG in RTL — adjust icon nudge direction */
+.play-btn svg{margin-right:0;margin-inline-end:-2px}
+/* Touch-action on drag-scroll for smooth mobile */
+.vscroll{touch-action:pan-y}
+/* Ensure text in mobile menu is RTL-aligned */
+.mob{text-align:center}
+/* Comparison table RTL alignment */
+.cmp-head div:last-child,.cmp-row>div:last-child{text-align:start}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="cur"></div>
+<div id="curl"></div>
+<div id="grain" aria-hidden="true"></div>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <a class="logo" href="#">Kol<span style="color:var(--red)">Kal</span><span class="logo-dot"></span></a>
+  <ul class="nav-links">
+    <li><a href="#voices">הקריינים</a></li>
+    <li><a href="#how">התהליך</a></li>
+    <li><a href="#pricing">מחירים</a></li>
+    <li><a href="#faq">שאלות</a></li>
+  </ul>
+  <button class="nav-btn" onclick="location.href='#order'">להזמנה ←</button>
+  <button class="ham" id="ham"><span></span><span></span><span></span></button>
+</nav>
+<div class="mob" id="mob">
+  <a href="#voices" onclick="cm()">הקריינים</a>
+  <a href="#how" onclick="cm()">התהליך</a>
+  <a href="#pricing" onclick="cm()">מחירים</a>
+  <a href="#faq" onclick="cm()">שאלות</a>
+  <a href="#order" class="btn-xl btn-xl-red" onclick="cm()">להזמנה עכשיו</a>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <canvas id="cvs"></canvas>
+  <div class="hero-mesh" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <!-- Big faded waveform -->
+  <div class="hero-wave-wrap" aria-hidden="true">
+    <svg viewBox="0 0 800 300" preserveAspectRatio="none">
+      <polyline id="wave-path" fill="none" stroke="url(#wg)" stroke-width="2" points=""/>
+      <defs><linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0%" stop-color="#e94560" stop-opacity="0"/>
+        <stop offset="20%" stop-color="#e94560" stop-opacity="1"/>
+        <stop offset="80%" stop-color="#e94560" stop-opacity="1"/>
+        <stop offset="100%" stop-color="#e94560" stop-opacity="0"/>
+      </linearGradient></defs>
+    </svg>
+  </div>
+
+  <div class="wrap hero-content">
+    <div data-r>
+      <div class="hero-badge">
+        <span class="badge-pulse"></span>
+        קריינות AI ישראלית · שקופה · מקצועית
+      </div>
+    </div>
+    <h1 class="hero-h1">
+      <span class="h1-line"><span class="h1-word h1-w1">הקול</span> <span class="h1-word h1-w2">שמוכר.</span></span>
+      <span class="h1-line"><span class="h1-word h1-w3 line-outline">הטכנולוגיה</span></span>
+      <span class="h1-line"><span class="h1-word h1-w4 line-red">שמשנה</span> <span class="h1-word h1-w5 line-red">הכל.</span></span>
+    </h1>
+    <div class="hero-row" data-r data-d="3">
+      <div>
+        <p class="hero-sub">קולקל בונה את הסוכנות שלא הייתה — <strong>קריינות AI</strong> ברמת סטודיו, שירות מנוהל לגמרי, ומחיר שגורם לשאלות. שולחים טקסט. מקבלים קריינות. הכל.</p>
+        <div class="hero-btns">
+          <button class="btn-mag btn-primary" onclick="document.getElementById('voices').scrollIntoView({behavior:'smooth'})">
+            <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round"><polygon points="5 3 19 12 5 21 5 3" fill="white" stroke="none"/></svg>
+            שמעו את הקולות
+          </button>
+          <button class="btn-mag btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">איך זה עובד ↓</button>
+        </div>
+      </div>
+      <div class="hero-stats" id="hstats">
+        <div class="hstat"><div class="hstat-n cnt" data-t="10">0</div><div class="hstat-l">קריינים מקצועיים</div></div>
+        <div class="hstat"><div class="hstat-n" style="color:#fff">6h</div><div class="hstat-l">אספקה מקסימלית</div></div>
+        <div class="hstat"><div class="hstat-n cnt" data-t="100">0</div><div class="hstat-l">% שקיפות על AI</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span>גלול</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee" aria-hidden="true">
+  <div class="mtrack">
+    <span class="mitem">קריינות לפרסומות<span class="sep"> · </span></span><span class="mitem">סרטוני תדמית<span class="sep"> · </span></span><span class="mitem">קורסים דיגיטליים<span class="sep"> · </span></span><span class="mitem">UGC ורילס<span class="sep"> · </span></span><span class="mitem">Explainer Videos<span class="sep"> · </span></span><span class="mitem">פודקאסטים<span class="sep"> · </span></span><span class="mitem">אירועים<span class="sep"> · </span></span><span class="mitem">הדרכות פנימיות<span class="sep"> · </span></span><span class="mitem">ניוזלטרים<span class="sep"> · </span></span><span class="mitem">קריינות לפרסומות<span class="sep"> · </span></span><span class="mitem">סרטוני תדמית<span class="sep"> · </span></span><span class="mitem">קורסים דיגיטליים<span class="sep"> · </span></span><span class="mitem">UGC ורילס<span class="sep"> · </span></span><span class="mitem">Explainer Videos<span class="sep"> · </span></span><span class="mitem">פודקאסטים<span class="sep"> · </span></span><span class="mitem">אירועים<span class="sep"> · </span></span><span class="mitem">הדרכות פנימיות<span class="sep"> · </span></span><span class="mitem">ניוזלטרים<span class="sep"> · </span></span>
+  </div>
+</div>
+
+<!-- ══ HOW ══ -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div data-r><div class="eyebrow">התהליך</div>
+    <h2 class="how-title">חמישה צעדים.<br><span style="color:var(--red)">תוצאה אחת מושלמת.</span></h2></div>
+    <div class="steps">
+      <div class="step" data-r data-d="1"><div class="step-c"><div class="step-n">1</div>🎧</div><h3>בוחרים קול</h3><p>גולשים, מאזינים, ומוצאים את הקול שמדבר ללקוחות שלכם</p></div>
+      <div class="step" data-r data-d="2"><div class="step-c"><div class="step-n">2</div>📝</div><h3>ממלאים טופס</h3><p>שתי דקות, שאלות ברורות. בלי ניחושים, בלי הפתעות</p></div>
+      <div class="step" data-r data-d="3"><div class="step-c"><div class="step-n">3</div>💬</div><h3>מצרפים טקסט</h3><p>יש? מצרפים. אין? אנחנו כותבים ושולחים לאישורכם</p></div>
+      <div class="step" data-r data-d="4"><div class="step-c"><div class="step-n">4</div>💳</div><h3>משלמים</h3><p>מחיר ידוע מראש, תשלום מאובטח. מתחילים מיד</p></div>
+      <div class="step" data-r data-d="5"><div class="step-c"><div class="step-n">5</div>📁</div><h3>מקבלים קובץ</h3><p>WAV/MP3 ברמת סטודיו, ישר למייל — תוך שעות</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VOICES ══ -->
+<section class="voices" id="voices">
+  <div class="wrap">
+    <div class="vhead" data-r>
+      <div class="eyebrow">הרוסטר שלנו</div>
+      <h2 class="vtitle">10 קריינים. <span style="color:var(--red)">קול אחד שלכם.</span></h2>
+      <p style="color:var(--mute);font-size:.95rem">כל קריין הוא אישיות — לא סתם קול. גललו, האזינו, ובחרו.</p>
+    </div>
+  </div>
+  <div class="vscroll" id="vs">
+    <div class="vtrack" style="padding:0 2.5rem">
+      <div class="vc" data-r data-d="1"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-adam"><div class="av-orb"></div><div class="av-bg av-adam"><span class="av-letter">א</span></div><div class="av-ring"></div></div><div><div class="vc-name">אדם</div><div class="vc-gender">גבר · אנרגטי</div></div></div><p class="vc-desc">קול שמניע לפעולה. כשצריכים שהלקוח ירגיש משהו — אדם מגיע.</p><div class="vc-tags"><span class="vtag">פרסומות</span><span class="vtag">ספורט</span><span class="vtag">UGC</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לאדם</span></div></div>
+
+      <div class="vc" data-r data-d="2"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-noam"><div class="av-orb"></div><div class="av-bg av-noam"><span class="av-letter" style="color:#60a5fa">נ</span></div><div class="av-ring"></div></div><div><div class="vc-name">נועם</div><div class="vc-gender">גבר · מקצועי</div></div></div><p class="vc-desc">ממוקד, ברור, מרשים. הקול שגורם לאנשים להקשיב עד הסוף.</p><div class="vc-tags"><span class="vtag">הסבר</span><span class="vtag">קורסים</span><span class="vtag">עסקי</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לנועם</span></div></div>
+
+      <div class="vc" data-r data-d="3"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-ron"><div class="av-orb" style="background:rgba(74,222,128,.4)"></div><div class="av-bg av-ron"><span class="av-letter" style="color:#4ade80">ר</span></div><div class="av-ring"></div></div><div><div class="vc-name">רון</div><div class="vc-gender">גבר · עיתונאי</div></div></div><p class="vc-desc">ניטרלי, אמין, מדויק. הקול שמצמיד אמון לכל תוכן שנוגע בו.</p><div class="vc-tags"><span class="vtag">חדשות</span><span class="vtag">דוקו</span><span class="vtag">תדמית</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לרון</span></div></div>
+
+      <div class="vc" data-r data-d="4"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-liav"><div class="av-orb" style="background:rgba(251,191,36,.4)"></div><div class="av-bg av-liav"><span class="av-letter" style="color:#fbbf24">ל</span></div><div class="av-ring"></div></div><div><div class="vc-name">ליאב</div><div class="vc-gender">גבר · צעיר</div></div></div><p class="vc-desc">ספונטני, חי, מדבק. הקול שגורם לרילס להישאר בזיכרון.</p><div class="vc-tags"><span class="vtag">רילס</span><span class="vtag">גיימינג</span><span class="vtag">סושיאל</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לליאב</span></div></div>
+
+      <div class="vc" data-r data-d="5"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-yonatan"><div class="av-orb" style="background:rgba(167,139,250,.4)"></div><div class="av-bg av-yonatan"><span class="av-letter" style="color:#a78bfa">י</span></div><div class="av-ring"></div></div><div><div class="vc-name">יונתן</div><div class="vc-gender">גבר · חגיגי</div></div></div><p class="vc-desc">מרשים, נוכח, כובד ראש. הקול שמרים אירועים לדרגה הבאה.</p><div class="vc-tags"><span class="vtag">אירועים</span><span class="vtag">גאלה</span><span class="vtag">ברכות</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו ליונתן</span></div></div>
+
+      <div class="vc" data-r data-d="1"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-mia"><div class="av-orb" style="background:rgba(249,168,212,.4)"></div><div class="av-bg av-mia"><span class="av-letter" style="color:#f9a8d4">מ</span></div><div class="av-ring"></div></div><div><div class="vc-name">מיה</div><div class="vc-gender">אישה · חמה</div></div></div><p class="vc-desc">מדברת ללב. מיה לא רק נשמעת טוב — היא גורמת לאנשים לקנות.</p><div class="vc-tags"><span class="vtag">מוצרים</span><span class="vtag">יופי</span><span class="vtag">UGC</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו למיה</span></div></div>
+
+      <div class="vc" data-r data-d="2"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-shira"><div class="av-orb" style="background:rgba(96,165,250,.4)"></div><div class="av-bg av-shira"><span class="av-letter" style="color:#60a5fa">ש</span></div><div class="av-ring"></div></div><div><div class="vc-name">שירה</div><div class="vc-gender">אישה · מלמדת</div></div></div><p class="vc-desc">סבלנית ומפורשת. שומרת צופים ערניים גם בשיעור ה-15 ברצף.</p><div class="vc-tags"><span class="vtag">ילדים</span><span class="vtag">הדרכה</span><span class="vtag">קורסים</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לשירה</span></div></div>
+
+      <div class="vc" data-r data-d="3"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-noa"><div class="av-orb" style="background:rgba(196,181,253,.4)"></div><div class="av-bg av-noa"><span class="av-letter" style="color:#c4b5fd">נ</span></div><div class="av-ring"></div></div><div><div class="vc-name">נועה</div><div class="vc-gender">אישה · מרגיעה</div></div></div><p class="vc-desc">שקטה, נוכחת, מורידה נשימה. מחזיקה אנשים מהתחלה עד הסוף.</p><div class="vc-tags"><span class="vtag">מדיטציה</span><span class="vtag">פודקאסט</span><span class="vtag">רגשי</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לנועה</span></div></div>
+
+      <div class="vc" data-r data-d="4"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-roni"><div class="av-orb" style="background:rgba(110,231,183,.4)"></div><div class="av-bg av-roni"><span class="av-letter" style="color:#6ee7b7">ר</span></div><div class="av-ring"></div></div><div><div class="vc-name">רוני</div><div class="vc-gender">אישה · פורמלית</div></div></div><p class="vc-desc">נקייה, מדויקת, ומשרה אמון. לתוכן שחייב להישמע רציני.</p><div class="vc-tags"><span class="vtag">חדשות</span><span class="vtag">ניוזלטר</span><span class="vtag">פורמלי</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לרוני</span></div></div>
+
+      <div class="vc" data-r data-d="5"><div class="vc-glow"></div><div class="vc-top"><div class="vc-av av-tal"><div class="av-orb" style="background:rgba(248,113,113,.4)"></div><div class="av-bg av-tal"><span class="av-letter" style="color:#f87171">ט</span></div><div class="av-ring"></div></div><div><div class="vc-name">טל</div><div class="vc-gender">אישה · עכשווית</div></div></div><p class="vc-desc">חדה, ביטחונית, עם ראש פתוח. הקול של עולם ההייטק הישראלי.</p><div class="vc-tags"><span class="vtag">סטארטאפ</span><span class="vtag">פינטק</span><span class="vtag">הייטק</span></div><div class="vc-wave"><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div><div class="vb"></div></div><div class="vc-foot"><button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></button><span class="play-lbl">האזינו לטל</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHY ══ -->
+<section class="why" id="why">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="why-l" data-r>
+        <div class="eyebrow">למה קולקל</div>
+        <h2>AI שנשמע כמו אדם.<br><span style="color:var(--red)">שירות שמרגיש אישי.</span></h2>
+        <p>לא עוד כלי שצריך ללמוד. לא עוד תוצאות שיוצאים איתם בבושת פנים. קולקל עובדת בשבילכם.</p>
+        <div class="feats">
+          <div class="feat"><div class="feat-ico">⚡</div><div><h4>מהיר × 10 מקריין אנושי</h4><p>קריין לוקח ימים. אנחנו — שעות. לא בגלל שממהרים, אלא כי אפשר.</p></div></div>
+          <div class="feat"><div class="feat-ico">🎯</div><div><h4>שקוף מ-א׳ עד ת׳</h4><p>AI ואנחנו אומרים את זה בגאווה. זה מה שמאפשר לנו להיות טובים בזה.</p></div></div>
+          <div class="feat"><div class="feat-ico">💎</div><div><h4>שירות מנוהל לגמרי</h4><p>שולחים, מקבלים. לא צריך ללמוד שום כלי. אנחנו מטפלים בהכל.</p></div></div>
+          <div class="feat"><div class="feat-ico">✍️</div><div><h4>כותבים גם בלי טקסט</h4><p>מבקשים, אנחנו כותבים, שולחים לאישורכם — ורק אז מייצרים.</p></div></div>
+        </div>
+      </div>
+      <div data-r data-d="2">
+        <div class="cmp">
+          <div class="cmp-head"><div>נושא</div><div class="ch-us">קולקל ✓</div><div>חלופות</div></div>
+          <div class="cmp-row"><div class="ct">מחיר</div><div class="cu">₪99 – ₪399</div><div class="cm">₪500 – ₪2,000+</div></div>
+          <div class="cmp-row"><div class="ct">מהירות</div><div class="cu">עד 6 שעות</div><div class="cm">ימים עד שבועות</div></div>
+          <div class="cmp-row"><div class="ct">ידע טכני</div><div class="cu">אפס</div><div class="cm">DIY: הרבה</div></div>
+          <div class="cmp-row"><div class="ct">עקביות</div><div class="cu">תמיד זהה</div><div class="cm">משתנה</div></div>
+          <div class="cmp-row"><div class="ct">כתיבת טקסט</div><div class="cu">כן, כלול</div><div class="cm">בתוספת גדולה</div></div>
+          <div class="cmp-row"><div class="ct">שקיפות</div><div class="cu">100% AI, גאים</div><div class="cm">לא תמיד</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div style="text-align:center" data-r>
+      <div class="eyebrow" style="justify-content:center">מחירים</div>
+      <h2 class="ptitle">פשוט. שקוף. <span style="color:var(--red)">מנצח.</span></h2>
+      <p style="color:var(--mute);font-size:.95rem">מה שכתוב זה מה שמשלמים. בלי כוכביות, בלי הפתעות.</p>
+    </div>
+    <div class="pplans">
+      <div class="plan" data-r data-d="1">
+        <div class="plan-tier">בסיסי</div>
+        <div class="plan-price"><span class="p-cur">₪</span><span class="p-amt">99</span></div>
+        <div class="plan-sub">עד 250 מילים · אספקה תוך 24 שעות</div>
+        <div class="plan-fs">
+          <div class="pf"><span class="pf-ck"></span><span>MP3 איכות גבוהה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>קול אחד לבחירה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>תיקון אחד כלול</span></div>
+          <div class="pf off"><span class="pf-ck"></span><span>כתיבת טקסט</span></div>
+          <div class="pf off"><span class="pf-ck"></span><span>גרסאות נוספות</span></div>
+        </div>
+        <button class="plan-btn pb-out" onclick="location.href='#order'">בחרו בסיסי</button>
+      </div>
+      <div class="plan hot" data-r data-d="2">
+        <div class="plan-pill">הכי פופולרי</div>
+        <div class="plan-tier">סטנדרט</div>
+        <div class="plan-price"><span class="p-cur">₪</span><span class="p-amt" style="color:var(--red)">199</span></div>
+        <div class="plan-sub">עד 600 מילים · אספקה תוך 12 שעות</div>
+        <div class="plan-fs">
+          <div class="pf"><span class="pf-ck"></span><span>MP3 + WAV סטודיו</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>קול + עריכה קלה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>תיקון אחד כלול</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>כתיבת טקסט (+₪49)</span></div>
+          <div class="pf off"><span class="pf-ck"></span><span>גרסאות נוספות</span></div>
+        </div>
+        <button class="plan-btn pb-solid" onclick="location.href='#order'">בחרו סטנדרט</button>
+      </div>
+      <div class="plan" data-r data-d="3">
+        <div class="plan-tier">פרימיום</div>
+        <div class="plan-price"><span class="p-cur">₪</span><span class="p-amt">399</span></div>
+        <div class="plan-sub">עד 1500 מילים · אספקה תוך 6 שעות</div>
+        <div class="plan-fs">
+          <div class="pf"><span class="pf-ck"></span><span>MP3 + WAV + RAW</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>עד 3 גרסאות קול</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>תיקונים מרובים</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>כתיבת טקסט כלולה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span>עדיפות בתור</span></div>
+        </div>
+        <button class="plan-btn pb-out" onclick="location.href='#order'">בחרו פרימיום</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTI ══ -->
+<section class="testi" id="reviews">
+  <div class="wrap">
+    <div data-r>
+      <div class="eyebrow">לקוחות מדברים</div>
+      <h2 style="font-size:clamp(1.9rem,4vw,3rem);font-weight:900;letter-spacing:-.03em">הם ניסו.<br><span style="color:var(--red)">הם יודעים.</span></h2>
+    </div>
+    <div class="tgrid">
+      <div class="tc" data-r data-d="1"><div class="tc-qm">"</div><div class="tc-stars">★★★★★</div><p class="tc-txt">קיבלתי קריינות לסרטון תדמית תוך 5 שעות. שמתי אותה מיד על האתר בלי עריכה. הלקוחות שלי שאלו אם שכרתי שחקן קול.</p><div class="tc-au"><div class="tc-av">ד</div><div><div class="tc-name">דן לוי</div><div class="tc-role">Studio Creative</div></div></div></div>
+      <div class="tc" data-r data-d="2"><div class="tc-qm">"</div><div class="tc-stars">★★★★★</div><p class="tc-txt">תמיד נתקעתי על הקריינות לקורסים שלי. עם קולקל זה הפך לקל — שירה בדיוק בסגנון שחיפשתי, תוך שעות.</p><div class="tc-au"><div class="tc-av">מ</div><div><div class="tc-name">מיכל כהן</div><div class="tc-role">מרצה ויזמית דיגיטלית</div></div></div></div>
+      <div class="tc" data-r data-d="3"><div class="tc-qm">"</div><div class="tc-stars">★★★★★</div><p class="tc-txt">אנחנו סוכנות ומשתמשים בקולקל לכל הלקוחות. המחיר, המהירות, העקביות — אין תחרות. פשוט אין.</p><div class="tc-au"><div class="tc-av">א</div><div><div class="tc-name">אלון שפירא</div><div class="tc-role">Digital Agency TLV</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div class="faq-l" data-r>
+        <div class="eyebrow">שאלות</div>
+        <h2>יש שאלות?<br><span style="color:var(--red)">יש תשובות.</span></h2>
+        <p>לא מצאתם מה שחיפשתם? אנחנו כאן.</p>
+        <button class="faq-cta" onclick="location.href='#order'">דברו איתנו →</button>
+      </div>
+      <div class="faq-items" data-r data-d="2">
+        <div class="faq-item"><div class="faq-q">האם הקריינות נשמעת אנושית?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">כן. הטכנולוגיה שבה אנחנו משתמשים מייצרת קול טבעי שנשמע אנושי. כל תוצר עובר בדיקה ידנית לפני שנשלח.</div></div></div>
+        <div class="faq-item"><div class="faq-q">כמה זמן עד שמקבלים את הקובץ?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">בסיסי: עד 24 שעות. סטנדרט: עד 12 שעות. פרימיום: עד 6 שעות. ברוב המקרים הרבה לפני.</div></div></div>
+        <div class="faq-item"><div class="faq-q">מה אם אין לי טקסט מוכן?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">אין בעיה. בסטנדרט ניתן להוסיף כתיבה ב-₪49. בפרימיום כלולה. כותבים, שולחים לאישורכם, ורק אז מייצרים.</div></div></div>
+        <div class="faq-item"><div class="faq-q">באיזה פורמט מקבלים את הקובץ?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">בסיסי: MP3. סטנדרט: MP3 + WAV. פרימיום: MP3 + WAV + RAW לעריכה. הכל ברמת סטודיו.</div></div></div>
+        <div class="faq-item"><div class="faq-q">האם ניתן לבקש תיקונים?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">כן — תיקון אחד כלול בכל חבילה. אם הטקסט לא השתנה ויש בעיה בביצוע — מתקנים ללא עלות.</div></div></div>
+        <div class="faq-item"><div class="faq-q">האם ניתן להשתמש לצרכים מסחריים?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">בהחלט. כל הקבצים הם בבעלותכם המלאה — לכל מטרה מסחרית ללא הגבלה.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA FINAL ══ -->
+<section class="ctaf" id="order">
+  <div class="ctaf-bg" aria-hidden="true"></div>
+  <div class="ctaf-grid" aria-hidden="true"></div>
+  <div class="ctaf-orb" aria-hidden="true"></div>
+  <div class="ctaf-orb2" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative">
+    <div data-r><h2>מוכנים לשמוע<br><span style="color:var(--red)">את המסר שלכם?</span></h2></div>
+    <p data-r data-d="1">בחרו קריין, שלחו טקסט — ותוך שעות הקריינות אצלכם.</p>
+    <div class="ctaf-btns" data-r data-d="2">
+      <button class="btn-xl btn-xl-red" onclick="document.getElementById('voices').scrollIntoView({behavior:'smooth'})">
+        <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        שמעו את הקולות
+      </button>
+      <a href="https://wa.me/972500000000" target="_blank" class="btn-xl btn-xl-ghost">
+        <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        וואטסאפ
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><div class="flogo">Kol<span>Kal</span></div><p class="fdesc">סוכנות קריינות AI ישראלית. שקופים, מקצועיים, ומהירים. כי הקול שלכם חשוב — ומגיע שיישמע נכון.</p></div>
+      <div class="fcol"><h5>קריינים</h5><ul><li><a href="#voices">אדם</a></li><li><a href="#voices">נועם</a></li><li><a href="#voices">מיה</a></li><li><a href="#voices">שירה</a></li><li><a href="#voices">כולם →</a></li></ul></div>
+      <div class="fcol"><h5>שירות</h5><ul><li><a href="#how">איך זה עובד</a></li><li><a href="#pricing">מחירים</a></li><li><a href="#faq">שאלות</a></li><li><a href="#order">הזמנה</a></li></ul></div>
+      <div class="fcol"><h5>קשר</h5><ul><li><a href="mailto:hello@kolkal.co.il">hello@kolkal.co.il</a></li><li><a href="#">וואטסאפ</a></li><li><a href="#">אינסטגרם</a></li><li><a href="#">פייסבוק</a></li></ul></div>
+    </div>
+    <div class="fbot"><div>© 2026 KolKal<span class="frd"></span>קולקל. כל הזכויות שמורות.</div><div>Made with ❤️ in Israel</div></div>
+  </div>
+</footer>
+
+<button id="tot" aria-label="למעלה"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+<script>
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),curl=document.getElementById('curl');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.right=(innerWidth-e.clientX-5)+'px';
+  cur.style.top=(e.clientY-5)+'px';
+});
+(function al(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  curl.style.right=(innerWidth-rx-18)+'px';curl.style.top=(ry-18)+'px';
+  requestAnimationFrame(al);
+})();
+document.querySelectorAll('a,button,.vc,.feat').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cur-big'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-big'));
+});
+
+/* ── PARTICLES ── */
+const cvs=document.getElementById('cvs');
+const ctx=cvs.getContext('2d');
+let W,H,pts=[];
+function resize(){W=cvs.width=innerWidth;H=cvs.height=innerHeight}
+resize();window.addEventListener('resize',resize);
+function rnd(a,b){return a+(b-a)*Math.random()}
+for(let i=0;i<88;i++){
+  pts.push({x:rnd(0,innerWidth),y:rnd(0,innerHeight),vx:rnd(-.3,.3),vy:rnd(-.25,.25),r:rnd(.8,2.2),o:rnd(.15,.55)});
+}
+let pmx=innerWidth/2,pmy=innerHeight/2;
+document.addEventListener('mousemove',e=>{pmx=e.clientX;pmy=e.clientY});
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    // Mouse attraction
+    const dx=pmx-p.x,dy=pmy-p.y,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<150){p.x+=dx*.0015;p.y+=dy*.0015;}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(233,69,96,${p.o})`;ctx.fill();
+  });
+  // Lines between close particles
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<100){
+      ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+      ctx.strokeStyle=`rgba(233,69,96,${.12*(1-d/100)})`;ctx.lineWidth=.5;ctx.stroke();
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ── ANIMATED WAVEFORM SVG ── */
+const wavePts=document.getElementById('wave-path');
+let wt=0;
+function animWave(){
+  let pts_arr=[];
+  for(let x=0;x<=800;x+=5){
+    const y=150+Math.sin(x*.025+wt)*40+Math.sin(x*.055+wt*1.3)*20+Math.sin(x*.012+wt*.7)*60;
+    pts_arr.push(x+','+y);
+  }
+  wavePts.setAttribute('points',pts_arr.join(' '));
+  wt+=.018;
+  requestAnimationFrame(animWave);
+}
+animWave();
+
+/* ── SPLIT TEXT ANIMATION ── */
+setTimeout(()=>{
+  document.querySelectorAll('.h1-word').forEach(w=>w.classList.add('in'));
+},120);
+
+/* ── SCROLL ── */
+const prog=document.getElementById('progress');
+const nav=document.getElementById('nav');
+const tot=document.getElementById('tot');
+window.addEventListener('scroll',()=>{
+  const sp=window.scrollY,sh=document.body.scrollHeight-innerHeight;
+  prog.style.transform=`scaleX(${sp/sh})`;
+  nav.classList.toggle('s',sp>60);
+  tot.classList.toggle('show',sp>500);
+});
+tot.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ── REVEAL ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});
+},{threshold:.1});
+document.querySelectorAll('[data-r]').forEach(el=>obs.observe(el));
+
+/* ── COUNT UP ── */
+const cobs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,t=parseInt(el.dataset.t),d=t/50;
+    let v=0;
+    const ti=setInterval(()=>{v=Math.min(v+d,t);el.textContent=Math.floor(v);if(v>=t)clearInterval(ti);},25);
+    cobs.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('.cnt').forEach(el=>cobs.observe(el));
+
+/* ── FAQ ── */
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement,open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!open)item.classList.add('open');
+  });
+});
+
+/* ── MOBILE MENU ── */
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{ham.classList.toggle('o');mob.classList.toggle('o');});
+function cm(){ham.classList.remove('o');mob.classList.remove('o');}
+
+/* ── RIPPLE ── */
+document.querySelectorAll('.btn-mag,.plan-btn,.btn-xl').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    const r=document.createElement('span');r.className='ripple';
+    const rect=btn.getBoundingClientRect();
+    const size=Math.max(rect.width,rect.height)*2;
+    r.style.cssText=`width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    btn.appendChild(r);setTimeout(()=>r.remove(),600);
+  });
+});
+
+/* ── 3D TILT on voice cards ── */
+document.querySelectorAll('.vc').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(600px) rotateY(${x*12}deg) rotateX(${-y*8}deg) translateY(-8px)`;
+    const glow=card.querySelector('.vc-glow');
+    if(glow){glow.style.left=(e.clientX-r.left)+'px';glow.style.top=(e.clientY-r.top)+'px';}
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='';});
+});
+
+/* ── DRAG SCROLL (mouse + touch) ── */
+const vs=document.getElementById('vs');
+let isD=false,sx,sl;
+// Mouse drag
+vs.addEventListener('mousedown',e=>{isD=true;sx=e.pageX-vs.offsetLeft;sl=vs.scrollLeft;vs.style.cursor='grabbing';});
+vs.addEventListener('mouseleave',()=>{isD=false;vs.style.cursor='grab';});
+vs.addEventListener('mouseup',()=>{isD=false;vs.style.cursor='grab';});
+vs.addEventListener('mousemove',e=>{if(!isD)return;e.preventDefault();const walk=(e.pageX-vs.offsetLeft-sx)*1.6;vs.scrollLeft=sl-walk;});
+// Touch drag
+let tx=0,tsl=0;
+vs.addEventListener('touchstart',e=>{tx=e.touches[0].pageX;tsl=vs.scrollLeft;},{passive:true});
+vs.addEventListener('touchmove',e=>{const walk=(e.touches[0].pageX-tx)*1.4;vs.scrollLeft=tsl-walk;},{passive:true});
+
+/* ── SMOOTH LINKS ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
+});
+</script>
+</body>
+</html>
