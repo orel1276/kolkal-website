@@ -18,6 +18,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Heebo',sans-serif;background:var(--ink);color:var(--txt);overflow-x:hidden;cursor:none}
+a,button,.nav-wa-btn,.tgl-btn,.wa-nav-btn,#tot,.nav-btn,.plan-btn,.faq-cta,.play-btn,.faq-q,.vc,.feat,.btn-mag,.btn-xl,.faq-item,.tc,.plan,.vscroll,.vc-foot{cursor:none}
 a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--red);border-radius:99px}
 
@@ -69,7 +70,8 @@ nav.s{background:rgba(5,5,14,.88);backdrop-filter:blur(28px);-webkit-backdrop-fi
 
 /* ── HERO ── */
 .hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 7vh}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;z-index:0}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.2;z-index:0;pointer-events:none}
+@media(max-width:640px){.hero-video{opacity:.1}}
 #cvs{position:absolute;inset:0;z-index:0}
 .hero-mesh{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 70% 55% at 25% 0%,rgba(233,69,96,.13),transparent 60%),radial-gradient(ellipse 50% 50% at 85% 100%,rgba(120,40,200,.08),transparent 60%)}
 .hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:90px 90px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent)}
