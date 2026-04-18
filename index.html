@@ -378,6 +378,75 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;background:var(-
   .mob a{font-size:1.6rem}
 }
 
+/* ── LIGHT MODE ── */
+body.light{--ink:#f4f4fb;--ink2:#eaeaf4;--ink3:#dedeed;--glass:rgba(0,0,0,.04);--border:rgba(0,0,0,.09);--txt:#0c0c1e;--mute:#8080a8}
+body.light nav.s{background:rgba(244,244,251,.93)}
+body.light .mob{background:rgba(244,244,251,.97)}
+body.light .vc,.light .plan,.light .tc,.light .feat{background:rgba(255,255,255,.75)}
+body.light .cmp{background:#fff}
+body.light #grain{opacity:.012}
+body.light footer{background:var(--ink2)}
+body.light .hero-grid{background-image:linear-gradient(rgba(0,0,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.04) 1px,transparent 1px)}
+body.light .form-field input,body.light .form-field select,body.light .form-field textarea{background:rgba(255,255,255,.9);color:#0c0c1e;border-color:rgba(0,0,0,.12)}
+
+/* ── NAV TOGGLES ── */
+.nav-toggles{display:flex;align-items:center;gap:.4rem}
+.tgl-btn{background:var(--glass);border:1px solid var(--border);color:var(--mute);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.72rem;font-weight:800;font-family:'Heebo',sans-serif;transition:all .3s;flex-shrink:0}
+.tgl-btn:hover,.tgl-btn.on{border-color:rgba(233,69,96,.5);color:var(--red);background:rgba(233,69,96,.09)}
+@media(max-width:640px){.nav-toggles{display:none}}
+
+/* ── WHATSAPP FAB ── */
+.wa-fab{position:fixed;top:50%;left:1.4rem;transform:translateY(-50%);z-index:590;display:flex;align-items:center;gap:.55rem;background:#25D366;color:#fff;border:none;border-radius:99px;padding:.7rem 1.2rem .7rem .85rem;font-family:'Heebo',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;box-shadow:0 6px 24px rgba(37,211,102,.38);transition:all .35s;text-decoration:none;white-space:nowrap}
+.wa-fab svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
+.wa-fab:hover{background:#1db954;transform:translateY(-50%) scale(1.07);box-shadow:0 10px 36px rgba(37,211,102,.55)}
+@media(max-width:640px){.wa-fab .wa-label{display:none}.wa-fab{padding:.72rem;border-radius:50%;left:1rem;top:auto;bottom:6.5rem;transform:none}.wa-fab:hover{transform:scale(1.07)}}
+
+/* ── STUDIO ANIMATION ── */
+.studio-wrap{position:absolute;inset-inline-start:4%;top:50%;transform:translateY(-50%);z-index:2;width:min(340px,38vw);pointer-events:none}
+@media(max-width:900px){.studio-wrap{display:none}}
+.studio-mic-area{position:relative;display:flex;align-items:center;justify-content:center;height:260px}
+.mic-ring{position:absolute;border-radius:50%;border:1px solid rgba(233,69,96,.5);animation:mring 2.8s ease-out infinite}
+.mic-ring:nth-child(1){width:80px;height:80px;animation-delay:0s}
+.mic-ring:nth-child(2){width:140px;height:140px;animation-delay:.7s}
+.mic-ring:nth-child(3){width:200px;height:200px;animation-delay:1.4s}
+.mic-ring:nth-child(4){width:260px;height:260px;animation-delay:2.1s}
+@keyframes mring{0%{opacity:.7;transform:scale(.9)}100%{opacity:0;transform:scale(1.05)}}
+.mic-svg{position:relative;z-index:2;filter:drop-shadow(0 0 18px rgba(233,69,96,.4))}
+.rec-dot{width:10px;height:10px;background:var(--red);border-radius:50%;position:absolute;top:8px;right:8px;animation:bd 1.2s infinite}
+.studio-bars{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:50px;margin-top:1.2rem;padding:0 1rem;opacity:.7}
+.sbar{width:4px;border-radius:4px;background:linear-gradient(180deg,var(--red),rgba(233,69,96,.25));animation:sanim 1.3s ease-in-out infinite}
+.sbar:nth-child(1){height:15px}.sbar:nth-child(2){height:30px;animation-delay:.1s}.sbar:nth-child(3){height:44px;animation-delay:.2s}.sbar:nth-child(4){height:28px;animation-delay:.3s}.sbar:nth-child(5){height:40px;animation-delay:.4s}.sbar:nth-child(6){height:22px;animation-delay:.5s}.sbar:nth-child(7){height:36px;animation-delay:.6s}.sbar:nth-child(8){height:18px;animation-delay:.7s}.sbar:nth-child(9){height:32px;animation-delay:.8s}.sbar:nth-child(10){height:14px;animation-delay:.9s}.sbar:nth-child(11){height:26px;animation-delay:1s}.sbar:nth-child(12){height:38px;animation-delay:1.1s}
+@keyframes sanim{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.18)}}
+
+/* ── LUXURY: SHINY CARDS ── */
+.vc,.plan,.tc{isolation:isolate}
+.vc .shine,.plan .shine,.tc .shine{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.07) 50%,transparent 80%);background-size:300% 100%;opacity:0;transition:opacity .3s;pointer-events:none;z-index:5}
+.vc:hover .shine,.plan:hover .shine,.tc:hover .shine{opacity:1;animation:cardshine .65s ease forwards}
+@keyframes cardshine{0%{background-position:200% 0}100%{background-position:-100% 0}}
+
+/* ── LUXURY: TYPOGRAPHY ── */
+.how-title,.vtitle,.ptitle{letter-spacing:-.04em}
+.hero-h1{letter-spacing:-.05em}
+.eyebrow{letter-spacing:.22em;font-size:.7rem}
+.hero-badge{padding:.45rem 1.1rem .45rem .7rem;font-size:.77rem}
+section h2{line-height:1.05}
+
+/* ── ORDER FORM SECTION ── */
+.ord-sec{padding:130px 0;background:var(--ink2);position:relative}
+.ord-sec::before{content:'';position:absolute;top:0;inset-inline:0;height:1px;background:linear-gradient(90deg,transparent,rgba(233,69,96,.4),transparent)}
+.ord-wrap{max-width:780px;margin:3.5rem auto 0}
+.ord-form{display:flex;flex-direction:column;gap:1.4rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}}
+.form-field{display:flex;flex-direction:column;gap:.5rem}
+.form-field label{font-size:.72rem;font-weight:800;color:var(--mute);letter-spacing:.1em;text-transform:uppercase}
+.form-field input,.form-field select,.form-field textarea{background:var(--glass);border:1px solid var(--border);border-radius:13px;padding:.9rem 1.1rem;color:var(--txt);font-family:'Heebo',sans-serif;font-size:.92rem;transition:border-color .25s,box-shadow .25s;outline:none;width:100%;appearance:none}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:rgba(233,69,96,.5);box-shadow:0 0 0 4px rgba(233,69,96,.09)}
+.form-field textarea{min-height:120px;resize:vertical;line-height:1.6}
+.form-field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 1rem center;cursor:pointer}
+.form-success{display:none;text-align:center;padding:2.5rem;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.2);border-radius:18px;color:#1db954;font-weight:700;font-size:1.05rem;margin-top:1.5rem}
+.form-success .ok-ico{font-size:2.5rem;margin-bottom:.8rem}
+
 /* ── RTL SPECIFIC FIXES ── */
 /* Horizontal slide direction: RTL cards / features slide inward */
 .feat:hover{transform:translateX(4px)}
@@ -418,16 +487,26 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;background:var(-
 <div id="curl"></div>
 <div id="grain" aria-hidden="true"></div>
 
+<!-- ══ WHATSAPP FAB ══ -->
+<a class="wa-fab" href="https://wa.me/972528028988" target="_blank" rel="noopener" aria-label="שלחו הודעה בוואטסאפ">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-label" data-he="דברו איתי" data-en="Talk to me">דברו איתי</span>
+</a>
+
 <!-- ══ NAV ══ -->
 <nav id="nav">
   <a class="logo" href="#">Kol<span style="color:var(--red)">Kal</span><span class="logo-dot"></span></a>
   <ul class="nav-links">
-    <li><a href="#voices">הקריינים</a></li>
-    <li><a href="#how">התהליך</a></li>
-    <li><a href="#pricing">מחירים</a></li>
-    <li><a href="#faq">שאלות</a></li>
+    <li><a href="#voices" data-he="הקריינים" data-en="Voices">הקריינים</a></li>
+    <li><a href="#how" data-he="התהליך" data-en="Process">התהליך</a></li>
+    <li><a href="#pricing" data-he="מחירים" data-en="Pricing">מחירים</a></li>
+    <li><a href="#faq" data-he="שאלות" data-en="FAQ">שאלות</a></li>
   </ul>
-  <button class="nav-btn" onclick="location.href='#order'">להזמנה ←</button>
+  <div class="nav-toggles">
+    <button class="tgl-btn" id="theme-tgl" onclick="toggleTheme()" title="מצב בהיר/כהה">☀</button>
+    <button class="tgl-btn" id="lang-tgl" onclick="toggleLang()" title="English / עברית">EN</button>
+  </div>
+  <button class="nav-btn" onclick="location.href='#order-form'" data-he="להזמנה ←" data-en="Order →">להזמנה ←</button>
   <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 <div class="mob" id="mob">
@@ -435,7 +514,7 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;background:var(-
   <a href="#how" onclick="cm()">התהליך</a>
   <a href="#pricing" onclick="cm()">מחירים</a>
   <a href="#faq" onclick="cm()">שאלות</a>
-  <a href="#order" class="btn-xl btn-xl-red" onclick="cm()">להזמנה עכשיו</a>
+  <a href="#order-form" class="btn-xl btn-xl-red" onclick="cm()" data-he="להזמנה עכשיו" data-en="Order Now">להזמנה עכשיו</a>
 </div>
 
 <!-- ══ HERO ══ -->
@@ -443,6 +522,26 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;background:var(-
   <canvas id="cvs"></canvas>
   <div class="hero-mesh" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
+  <!-- Studio animation -->
+  <div class="studio-wrap" aria-hidden="true">
+    <div class="studio-mic-area">
+      <div class="mic-ring"></div><div class="mic-ring"></div><div class="mic-ring"></div><div class="mic-ring"></div>
+      <svg class="mic-svg" width="80" height="120" viewBox="0 0 80 120" fill="none">
+        <rect x="28" y="4" width="24" height="54" rx="12" fill="rgba(233,69,96,.9)" stroke="rgba(233,69,96,.4)" stroke-width="1.5"/>
+        <path d="M16 52c0 13.25 10.745 24 24 24s24-10.75 24-24" stroke="rgba(233,69,96,.7)" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="40" y1="76" x2="40" y2="96" stroke="rgba(233,69,96,.7)" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="20" y="96" width="40" height="4" rx="2" fill="rgba(233,69,96,.6)"/>
+        <circle cx="40" cy="20" r="4" fill="rgba(255,255,255,.3)"/>
+      </svg>
+      <div class="rec-dot"></div>
+    </div>
+    <div class="studio-bars">
+      <div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div>
+      <div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div>
+      <div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div>
+    </div>
+  </div>
+
   <!-- Big faded waveform -->
   <div class="hero-wave-wrap" aria-hidden="true">
     <svg viewBox="0 0 800 300" preserveAspectRatio="none">
@@ -679,10 +778,87 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2rem;background:var(-
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         שמעו את הקולות
       </button>
-      <a href="https://wa.me/972500000000" target="_blank" class="btn-xl btn-xl-ghost">
+      <a href="https://wa.me/972528028988" target="_blank" class="btn-xl btn-xl-ghost">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         וואטסאפ
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ORDER FORM ══ -->
+<section class="ord-sec" id="order-form">
+  <div class="wrap">
+    <div style="text-align:center" data-r>
+      <div class="eyebrow" style="justify-content:center" data-he="הזמינו עכשיו" data-en="Order Now">הזמינו עכשיו</div>
+      <h2 style="font-size:clamp(1.9rem,4vw,3rem);font-weight:900;letter-spacing:-.04em;margin-bottom:.6rem" data-he="שלחו לנו את הפרויקט שלכם" data-en="Send us your project">שלחו לנו את הפרויקט שלכם</h2>
+      <p style="color:var(--mute);font-size:.95rem" data-he="ממלאים, שולחים — ואנחנו חוזרים אליכם תוך שעה" data-en="Fill in, submit — we'll get back to you within the hour">ממלאים, שולחים — ואנחנו חוזרים אליכם תוך שעה</p>
+    </div>
+    <div class="ord-wrap" data-r data-d="2">
+      <form class="ord-form" id="ord-form" onsubmit="return handleOrder(event)">
+        <div class="form-row">
+          <div class="form-field">
+            <label data-he="שם מלא *" data-en="Full Name *">שם מלא *</label>
+            <input type="text" id="f-name" placeholder="ישראל ישראלי" required/>
+          </div>
+          <div class="form-field">
+            <label data-he="טלפון *" data-en="Phone *">טלפון *</label>
+            <input type="tel" id="f-phone" placeholder="050-0000000" required/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-he="אימייל *" data-en="Email *">אימייל *</label>
+            <input type="email" id="f-email" placeholder="you@email.com" required/>
+          </div>
+          <div class="form-field">
+            <label data-he="קריין מועדף" data-en="Preferred Voice">קריין מועדף</label>
+            <select id="f-voice">
+              <option value="" data-he="אנחנו נמליץ" data-en="We'll recommend">אנחנו נמליץ</option>
+              <option>אדם — אנרגטי</option><option>נועם — מקצועי</option>
+              <option>רון — עיתונאי</option><option>ליאב — צעיר</option>
+              <option>יונתן — חגיגי</option><option>מיה — חמה</option>
+              <option>שירה — מלמדת</option><option>נועה — מרגיעה</option>
+              <option>רוני — פורמלית</option><option>טל — עכשווית</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-he="סוג הפרויקט" data-en="Project Type">סוג הפרויקט</label>
+            <select id="f-type">
+              <option data-he="פרסומת" data-en="Commercial">פרסומת</option>
+              <option data-he="קורס דיגיטלי" data-en="Online Course">קורס דיגיטלי</option>
+              <option data-he="סרטון תדמית" data-en="Brand Video">סרטון תדמית</option>
+              <option data-he="רילס / UGC" data-en="Reels / UGC">רילס / UGC</option>
+              <option data-he="פודקאסט" data-en="Podcast">פודקאסט</option>
+              <option data-he="הדרכה פנימית" data-en="Internal Training">הדרכה פנימית</option>
+              <option data-he="אחר" data-en="Other">אחר</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label data-he="חבילה" data-en="Package">חבילה</label>
+            <select id="f-plan">
+              <option data-he="בסיסי — ₪99 (עד 250 מילים)" data-en="Basic — ₪99 (up to 250 words)">בסיסי — ₪99 (עד 250 מילים)</option>
+              <option data-he="סטנדרט — ₪199 (עד 600 מילים)" data-en="Standard — ₪199 (up to 600 words)">סטנדרט — ₪199 (עד 600 מילים)</option>
+              <option data-he="פרימיום — ₪399 (עד 1500 מילים)" data-en="Premium — ₪399 (up to 1500 words)">פרימיום — ₪399 (עד 1500 מילים)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field">
+          <label data-he="הטקסט לקריינות (אופציונלי)" data-en="Your Script (optional)">הטקסט לקריינות (אופציונלי)</label>
+          <textarea id="f-text" placeholder="הדביקו את הטקסט שלכם כאן, או השאירו ריק אם אנחנו כותבים..."></textarea>
+        </div>
+        <div class="form-field">
+          <label data-he="הנחיות מיוחדות" data-en="Special Instructions">הנחיות מיוחדות</label>
+          <textarea id="f-notes" placeholder="סגנון, קצב, דגשים... כל מה שחשוב לכם" style="min-height:80px"></textarea>
+        </div>
+        <button type="submit" class="btn-mag btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:1.1rem 2rem" data-he="שלחו הזמנה →" data-en="Submit Order →">שלחו הזמנה →</button>
+      </form>
+      <div class="form-success" id="form-success">
+        <div class="ok-ico">✅</div>
+        <span data-he="ההזמנה נשלחה! נחזור אליכם תוך שעה 🎙" data-en="Order sent! We'll get back to you within the hour 🎙">ההזמנה נשלחה! נחזור אליכם תוך שעה 🎙</span>
+      </div>
     </div>
   </div>
 </section>
@@ -860,6 +1036,60 @@ vs.addEventListener('touchmove',e=>{const walk=(e.touches[0].pageX-tx)*1.4;vs.sc
 /* ── SMOOTH LINKS ── */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});
+});
+
+/* ── DARK / LIGHT TOGGLE ── */
+function toggleTheme(){
+  const b=document.body,btn=document.getElementById('theme-tgl');
+  b.classList.toggle('light');
+  const isLight=b.classList.contains('light');
+  btn.textContent=isLight?'🌙':'☀';
+  btn.classList.toggle('on',isLight);
+  localStorage.setItem('kkTheme',isLight?'light':'dark');
+}
+if(localStorage.getItem('kkTheme')==='light'){document.body.classList.add('light');const b=document.getElementById('theme-tgl');if(b){b.textContent='🌙';b.classList.add('on');}}
+
+/* ── LANGUAGE TOGGLE ── */
+let currentLang='he';
+function toggleLang(){
+  currentLang=currentLang==='he'?'en':'he';
+  const isEn=currentLang==='en';
+  const html=document.documentElement;
+  html.setAttribute('lang',isEn?'en':'he');
+  html.setAttribute('dir',isEn?'ltr':'rtl');
+  const btn=document.getElementById('lang-tgl');
+  if(btn){btn.textContent=isEn?'HE':'EN';btn.classList.toggle('on',isEn);}
+  document.querySelectorAll('[data-he][data-en]').forEach(el=>{
+    const txt=isEn?el.dataset.en:el.dataset.he;
+    if(txt!==undefined){
+      if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'){el.placeholder=txt;}
+      else if(el.tagName==='OPTION'){el.textContent=txt;}
+      else{el.textContent=txt;}
+    }
+  });
+}
+
+/* ── ORDER FORM HANDLER ── */
+function handleOrder(e){
+  e.preventDefault();
+  const name=document.getElementById('f-name').value;
+  const phone=document.getElementById('f-phone').value;
+  const email=document.getElementById('f-email').value;
+  const voice=document.getElementById('f-voice').value||'המלצת צוות';
+  const type=document.getElementById('f-type').value;
+  const plan=document.getElementById('f-plan').value;
+  const text=document.getElementById('f-text').value;
+  const notes=document.getElementById('f-notes').value;
+  const msg=`הזמנה חדשה מ-KolKal 🎙️%0A%0Aשם: ${encodeURIComponent(name)}%0Aטלפון: ${encodeURIComponent(phone)}%0Aאימייל: ${encodeURIComponent(email)}%0Aקריין: ${encodeURIComponent(voice)}%0Aסוג: ${encodeURIComponent(type)}%0Aחבילה: ${encodeURIComponent(plan)}%0Aטקסט: ${encodeURIComponent(text)||'-'}%0Aהנחיות: ${encodeURIComponent(notes)||'-'}`;
+  window.open(`https://wa.me/972528028988?text=${msg}`,'_blank');
+  document.getElementById('ord-form').style.display='none';
+  document.getElementById('form-success').style.display='block';
+  return false;
+}
+
+/* ── ADD SHINE DIVS TO CARDS ── */
+document.querySelectorAll('.vc,.plan,.tc').forEach(card=>{
+  const s=document.createElement('div');s.className='shine';card.appendChild(s);
 });
 </script>
 </body>
