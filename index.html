@@ -69,6 +69,7 @@ nav.s{background:rgba(5,5,14,.88);backdrop-filter:blur(28px);-webkit-backdrop-fi
 
 /* ── HERO ── */
 .hero{min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:0 0 7vh}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;z-index:0}
 #cvs{position:absolute;inset:0;z-index:0}
 .hero-mesh{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 70% 55% at 25% 0%,rgba(233,69,96,.13),transparent 60%),radial-gradient(ellipse 50% 50% at 85% 100%,rgba(120,40,200,.08),transparent 60%)}
 .hero-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:90px 90px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 20%,transparent)}
@@ -396,8 +397,8 @@ body.light .form-field input,body.light .form-field select,body.light .form-fiel
 @media(max-width:640px){.nav-toggles{display:none}}
 
 /* ── WHATSAPP NAV BUTTON ── */
-.wa-nav-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#25D366;border-radius:50%;transition:all .3s;box-shadow:0 4px 14px rgba(37,211,102,.3)}
-.wa-nav-btn:hover{background:#1db954;transform:scale(1.1);box-shadow:0 6px 22px rgba(37,211,102,.5)}
+.nav-wa-btn{display:inline-flex;align-items:center;gap:.5rem;background:#25D366;color:#fff;border-radius:99px;padding:.55rem 1.1rem;font-weight:700;font-size:.83rem;transition:all .3s;box-shadow:0 4px 16px rgba(37,211,102,.3)}
+.nav-wa-btn:hover{background:#1db954;transform:translateY(-2px);box-shadow:0 6px 22px rgba(37,211,102,.5)}
 
 /* ── STUDIO ANIMATION: Person with headphones ── */
 .studio-wrap{position:absolute;inset-inline-start:3%;top:50%;transform:translateY(-50%);z-index:2;width:min(420px,40vw);pointer-events:none}
@@ -524,8 +525,9 @@ section h2{line-height:1.05}
     <button class="tgl-btn" id="theme-tgl" onclick="toggleTheme()" title="מצב בהיר/כהה">☀</button>
     <button class="tgl-btn" id="lang-tgl" onclick="toggleLang()" title="English / עברית">EN</button>
   </div>
-  <a class="wa-nav-btn" href="https://wa.me/972528028988" target="_blank" rel="noopener" data-he="דברו איתי" data-en="Talk to me">
+  <a class="nav-wa-btn" href="https://wa.me/972528028988" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span data-he="דברו איתי!" data-en="Talk to me!">דברו איתי!</span>
   </a>
   <button class="nav-btn" onclick="location.href='#order-form'" data-he="להזמנה ←" data-en="Order →">להזמנה ←</button>
   <button class="ham" id="ham"><span></span><span></span><span></span></button>
@@ -540,6 +542,9 @@ section h2{line-height:1.05}
 
 <!-- ══ HERO ══ -->
 <section class="hero" id="home">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="https://kolboai-production.ams3.digitaloceanspaces.com/kolboai-media/generated-videos/6874b8f2450787a6f82d99e3/69dcf4a1d6f3eb5afea8bbe5/Cinematic-top-down-view-of-a-p-69e3add96016.mp4" type="video/mp4">
+  </video>
   <canvas id="cvs"></canvas>
   <div class="hero-mesh" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
@@ -594,35 +599,35 @@ section h2{line-height:1.05}
 
   <div class="wrap hero-content">
     <div data-r>
-      <div class="hero-badge">
+        <div class="hero-badge" data-he="קריינות AI ישראלית · שקופה · מקצועית" data-en="Israeli AI Voiceover · Transparent · Professional">
         <span class="badge-pulse"></span>
-        קריינות AI ישראלית · שקופה · מקצועית
+        <span>קריינות AI ישראלית · שקופה · מקצועית</span>
       </div>
     </div>
     <h1 class="hero-h1">
-      <span class="h1-line"><span class="h1-word h1-w1">הקול</span> <span class="h1-word h1-w2">שמוכר.</span></span>
-      <span class="h1-line"><span class="h1-word h1-w3 line-outline">הטכנולוגיה</span></span>
-      <span class="h1-line"><span class="h1-word h1-w4 line-red">שמשנה</span> <span class="h1-word h1-w5 line-red">הכל.</span></span>
+      <span class="h1-line"><span class="h1-word h1-w1" data-he="הקול" data-en="The Voice">הקול</span> <span class="h1-word h1-w2" data-he="שמוכר." data-en="That Sells.">שמוכר.</span></span>
+      <span class="h1-line"><span class="h1-word h1-w3 line-outline" data-he="הטכנולוגיה" data-en="The Technology">הטכנולוגיה</span></span>
+      <span class="h1-line"><span class="h1-word h1-w4 line-red" data-he="שמשנה" data-en="Transforms">שמשנה</span> <span class="h1-word h1-w5 line-red" data-he="הכל." data-en="Everything.">הכל.</span></span>
     </h1>
     <div class="hero-row" data-r data-d="3">
       <div>
-        <p class="hero-sub">קולקל בונה את הסוכנות שלא הייתה — <strong>קריינות AI</strong> ברמת סטודיו, שירות מנוהל לגמרי, ומחיר שגורם לשאלות. שולחים טקסט. מקבלים קריינות. הכל.</p>
+        <p class="hero-sub" data-he="קולקל בונה את הסוכנות שלא הייתה — <strong>קריינות AI</strong> ברמת סטודיו, שירות מנוהל לגמרי, ומחיר שגורם לשאלות. שולחים טקסט. מקבלים קריינות. הכל." data-en="KolKal builds the agency that didn't exist — <strong>AI voiceover</strong> at studio quality, fully managed service, and a price that raises questions. Send text. Get voiceover. That's it.">קולקל בונה את הסוכנות שלא הייתה — <strong>קריינות AI</strong> ברמת סטודיו, שירות מנוהל לגמרי, ומחיר שגורם לשאלות. שולחים טקסט. מקבלים קריינות. הכל.</p>
         <div class="hero-btns">
           <button class="btn-mag btn-primary" onclick="document.getElementById('voices').scrollIntoView({behavior:'smooth'})">
             <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round"><polygon points="5 3 19 12 5 21 5 3" fill="white" stroke="none"/></svg>
-            שמעו את הקולות
+            <span data-he="שמעו את הקולות" data-en="Hear the Voices">שמעו את הקולות</span>
           </button>
-          <button class="btn-mag btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">איך זה עובד ↓</button>
+          <button class="btn-mag btn-ghost" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})"><span data-he="איך זה עובד ↓" data-en="How It Works ↓">איך זה עובד ↓</span></button>
         </div>
       </div>
       <div class="hero-stats" id="hstats">
-        <div class="hstat"><div class="hstat-n cnt" data-t="10">0</div><div class="hstat-l">קריינים מקצועיים</div></div>
-        <div class="hstat"><div class="hstat-n" style="color:#fff">6h</div><div class="hstat-l">אספקה מקסימלית</div></div>
-        <div class="hstat"><div class="hstat-n cnt" data-t="100">0</div><div class="hstat-l">% שקיפות על AI</div></div>
+        <div class="hstat"><div class="hstat-n cnt" data-t="10">0</div><div class="hstat-l" data-he="קריינים מקצועיים" data-en="Professional Voice Actors">קריינים מקצועיים</div></div>
+        <div class="hstat"><div class="hstat-n" style="color:#fff">6h</div><div class="hstat-l" data-he="אספקה מקסימלית" data-en="Max Delivery">אספקה מקסימלית</div></div>
+        <div class="hstat"><div class="hstat-n cnt" data-t="100">0</div><div class="hstat-l" data-he="% שקיפות על AI" data-en="% AI Transparency">% שקיפות על AI</div></div>
       </div>
     </div>
   </div>
-  <div class="scroll-cue" aria-hidden="true"><span>גלול</span><div class="scroll-line"></div></div>
+  <div class="scroll-cue" aria-hidden="true"><span data-he="גלול" data-en="Scroll">גלול</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- ══ MARQUEE ══ -->
@@ -635,14 +640,14 @@ section h2{line-height:1.05}
 <!-- ══ HOW ══ -->
 <section class="how" id="how">
   <div class="wrap">
-    <div data-r><div class="eyebrow">התהליך</div>
-    <h2 class="how-title">חמישה צעדים.<br><span style="color:var(--red)">תוצאה אחת מושלמת.</span></h2></div>
+    <div data-r><div class="eyebrow" data-he="התהליך" data-en="The Process">התהליך</div>
+    <h2 class="how-title" data-he="חמישה צעדים.<br><span style="color:var(--red)">תוצאה אחת מושלמת.</span>" data-en="Five Steps.<br><span style='color:var(--red)'>One Perfect Result.</span>">חמישה צעדים.<br><span style="color:var(--red)">תוצאה אחת מושלמת.</span></h2></div>
     <div class="steps">
-      <div class="step" data-r data-d="1"><div class="step-c"><div class="step-n">1</div>🎧</div><h3>בוחרים קול</h3><p>גולשים, מאזינים, ומוצאים את הקול שמדבר ללקוחות שלכם</p></div>
-      <div class="step" data-r data-d="2"><div class="step-c"><div class="step-n">2</div>📝</div><h3>ממלאים טופס</h3><p>שתי דקות, שאלות ברורות. בלי ניחושים, בלי הפתעות</p></div>
-      <div class="step" data-r data-d="3"><div class="step-c"><div class="step-n">3</div>💬</div><h3>מצרפים טקסט</h3><p>יש? מצרפים. אין? אנחנו כותבים ושולחים לאישורכם</p></div>
-      <div class="step" data-r data-d="4"><div class="step-c"><div class="step-n">4</div>💳</div><h3>משלמים</h3><p>מחיר ידוע מראש, תשלום מאובטח. מתחילים מיד</p></div>
-      <div class="step" data-r data-d="5"><div class="step-c"><div class="step-n">5</div>📁</div><h3>מקבלים קובץ</h3><p>WAV/MP3 ברמת סטודיו, ישר למייל — תוך שעות</p></div>
+      <div class="step" data-r data-d="1"><div class="step-c"><div class="step-n">1</div>🎧</div><h3 data-he="בוחרים קול" data-en="Choose a Voice">בוחרים קול</h3><p data-he="גולשים, מאזינים, ומוצאים את הקול שמדבר ללקוחות שלכם" data-en="Browse, listen, and find the voice that speaks to your customers">גולשים, מאזינים, ומוצאים את הקול שמדבר ללקוחות שלכם</p></div>
+      <div class="step" data-r data-d="2"><div class="step-c"><div class="step-n">2</div>📝</div><h3 data-he="ממלאים טופס" data-en="Fill Out Form">ממלאים טופס</h3><p data-he="שתי דקות, שאלות ברורות. בלי ניחושים, בלי הפתעות" data-en="Two minutes, clear questions. No guessing, no surprises">שתי דקות, שאלות ברורות. בלי ניחושים, בלי הפתעות</p></div>
+      <div class="step" data-r data-d="3"><div class="step-c"><div class="step-n">3</div>💬</div><h3 data-he="מצרפים טקסט" data-en="Add Text">מצרפים טקסט</h3><p data-he="יש? מצרפים. אין? אנחנו כותבים ושולחים לאישורכם" data-en="Have one? Attach it. Don't? We write and send for your approval">יש? מצרפים. אין? אנחנו כותבים ושולחים לאישורכם</p></div>
+      <div class="step" data-r data-d="4"><div class="step-c"><div class="step-n">4</div>💳</div><h3 data-he="משלמים" data-en="Pay">משלמים</h3><p data-he="מחיר ידוע מראש, תשלום מאובטח. מתחילים מיד" data-en="Known price upfront, secure payment. Start immediately">מחיר ידוע מראש, תשלום מאובטח. מתחילים מיד</p></div>
+      <div class="step" data-r data-d="5"><div class="step-c"><div class="step-n">5</div>📁</div><h3 data-he="מקבלים קובץ" data-en="Receive File">מקבלים קובץ</h3><p data-he="WAV/MP3 ברמת סטודיו, ישר למייל — תוך שעות" data-en="Studio-quality WAV/MP3, straight to email — within hours">WAV/MP3 ברמת סטודיו, ישר למייל — תוך שעות</p></div>
     </div>
   </div>
 </section>
@@ -651,10 +656,11 @@ section h2{line-height:1.05}
 <section class="voices" id="voices">
   <div class="wrap">
     <div class="vhead" data-r>
-      <div class="eyebrow">הרוסטר שלנו</div>
-      <h2 class="vtitle">10 קריינים. <span style="color:var(--red)">קול אחד שלכם.</span></h2>
-      <p style="color:var(--mute);font-size:.95rem">כל קריין הוא אישיות — לא סתם קול. גललו, האזינו, ובחרו.</p>
+      <div class="eyebrow" data-he="הרוסטר שלנו" data-en="Our Roster">הרוסטר שלנו</div>
+      <h2 class="vtitle" data-he="10 קריינים. <span style="color:var(--red)">קול אחד שלכם.</span>" data-en="10 Voices. <span style='color:var(--red)'>One Voice. Yours.</span>">10 קריינים. <span style="color:var(--red)">קול אחד שלכם.</span></h2>
+      <p style="color:var(--mute);font-size:.95rem" data-he="כל קריין הוא אישיות — לא סתם קול. גללו, האזינו, ובחרו." data-en="Every voice actor is a personality — not just a voice. Scroll, listen, and choose.">כל קריין הוא אישיות — לא סתם קול. גללו, האזינו, ובחרו.</p>
     </div>
+  </div>
   </div>
   <div class="vscroll" id="vs">
     <div class="vtrack" style="padding:0 2.5rem">
@@ -686,25 +692,25 @@ section h2{line-height:1.05}
   <div class="wrap">
     <div class="why-grid">
       <div class="why-l" data-r>
-        <div class="eyebrow">למה קולקל</div>
-        <h2>AI שנשמע כמו אדם.<br><span style="color:var(--red)">שירות שמרגיש אישי.</span></h2>
-        <p>לא עוד כלי שצריך ללמוד. לא עוד תוצאות שיוצאים איתם בבושת פנים. קולקל עובדת בשבילכם.</p>
+        <div class="eyebrow" data-he="למה קולקל" data-en="Why KolKal">למה קולקל</div>
+        <h2 data-he="AI שנשמע כמו אדם.<br><span style="color:var(--red)">שירות שמרגיש אישי.</span>" data-en="AI That Sounds Human.<br><span style='color:var(--red)'>Service That Feels Personal.</span>">AI שנשמע כמו אדם.<br><span style="color:var(--red)">שירות שמרגיש אישי.</span></h2>
+        <p data-he="לא עוד כלי שצריך ללמוד. לא עוד תוצאות שיוצאים איתם בבושת פנים. קולקל עובדת בשבילכם." data-en="No more tools to learn. No more results that make you cringe. KolKal works for you.">לא עוד כלי שצריך ללמוד. לא עוד תוצאות שיוצאים איתם בבושת פנים. קולקל עובדת בשבילכם.</p>
         <div class="feats">
-          <div class="feat"><div class="feat-ico">⚡</div><div><h4>מהיר × 10 מקריין אנושי</h4><p>קריין לוקח ימים. אנחנו — שעות. לא בגלל שממהרים, אלא כי אפשר.</p></div></div>
-          <div class="feat"><div class="feat-ico">🎯</div><div><h4>שקוף מ-א׳ עד ת׳</h4><p>AI ואנחנו אומרים את זה בגאווה. זה מה שמאפשר לנו להיות טובים בזה.</p></div></div>
-          <div class="feat"><div class="feat-ico">💎</div><div><h4>שירות מנוהל לגמרי</h4><p>שולחים, מקבלים. לא צריך ללמוד שום כלי. אנחנו מטפלים בהכל.</p></div></div>
-          <div class="feat"><div class="feat-ico">✍️</div><div><h4>כותבים גם בלי טקסט</h4><p>מבקשים, אנחנו כותבים, שולחים לאישורכם — ורק אז מייצרים.</p></div></div>
+          <div class="feat"><div class="feat-ico">⚡</div><div><h4 data-he="מהיר × 10 מקריין אנושי" data-en="10× Faster Than Human VA">מהיר × 10 מקריין אנושי</h4><p data-he="קריין לוקח ימים. אנחנו — שעות. לא בגלל שממהרים, אלא כי אפשר." data-en="A voice actor takes days. Us — hours. Not because we're rushing, but because we can.">קריין לוקח ימים. אנחנו — שעות. לא בגלל שממהרים, אלא כי אפשר.</p></div></div>
+          <div class="feat"><div class="feat-ico">🎯</div><div><h4 data-he="שקוף מ-א׳ עד ת׳" data-en="Transparent From A to Z">שקוף מ-א׳ עד ת׳</h4><p data-he="AI ואנחנו אומרים את זה בגאווה. זה מה שמאפשר לנו להיות טובים בזה." data-en="We say it proudly. This is what enables us to excel at it.">AI ואנחנו אומרים את זה בגאווה. זה מה שמאפשר לנו להיות טובים בזה.</p></div></div>
+          <div class="feat"><div class="feat-ico">💎</div><div><h4 data-he="שירות מנוהל לגמרי" data-en="Fully Managed Service">שירות מנוהל לגמרי</h4><p data-he="שולחים, מקבלים. לא צריך ללמוד שום כלי. אנחנו מטפלים בהכל." data-en="Send, receive. No tools to learn. We handle everything.">שולחים, מקבלים. לא צריך ללמוד שום כלי. אנחנו מטפלים בהכל.</p></div></div>
+          <div class="feat"><div class="feat-ico">✍️</div><div><h4 data-he="כותבים גם בלי טקסט" data-en="We Write Too, Even Without Text">כותבים גם בלי טקסט</h4><p data-he="מבקשים, אנחנו כותבים, שולחים לאישורכם — ורק אז מייצרים." data-en="Request, we write, send for approval — and only then produce.">מבקשים, אנחנו כותבים, שולחים לאישורכם — ורק אז מייצרים.</p></div></div>
         </div>
       </div>
       <div data-r data-d="2">
         <div class="cmp">
-          <div class="cmp-head"><div>נושא</div><div class="ch-us">קולקל ✓</div><div>חלופות</div></div>
-          <div class="cmp-row"><div class="ct">מחיר</div><div class="cu">₪99 – ₪399</div><div class="cm">₪500 – ₪2,000+</div></div>
-          <div class="cmp-row"><div class="ct">מהירות</div><div class="cu">עד 6 שעות</div><div class="cm">ימים עד שבועות</div></div>
-          <div class="cmp-row"><div class="ct">ידע טכני</div><div class="cu">אפס</div><div class="cm">DIY: הרבה</div></div>
-          <div class="cmp-row"><div class="ct">עקביות</div><div class="cu">תמיד זהה</div><div class="cm">משתנה</div></div>
-          <div class="cmp-row"><div class="ct">כתיבת טקסט</div><div class="cu">כן, כלול</div><div class="cm">בתוספת גדולה</div></div>
-          <div class="cmp-row"><div class="ct">שקיפות</div><div class="cu">100% AI, גאים</div><div class="cm">לא תמיד</div></div>
+          <div class="cmp-head"><div data-he="נושא" data-en="Topic">נושא</div><div class="ch-us" data-he="קולקל ✓" data-en="KolKal ✓">קולקל ✓</div><div data-he="חלופות" data-en="Alternatives">חלופות</div></div>
+          <div class="cmp-row"><div class="ct" data-he="מחיר" data-en="Price">מחיר</div><div class="cu">₪99 – ₪399</div><div class="cm">₪500 – ₪2,000+</div></div>
+          <div class="cmp-row"><div class="ct" data-he="מהירות" data-en="Speed">מהירות</div><div class="cu" data-he="עד 6 שעות" data-en="Up to 6 hours">עד 6 שעות</div><div class="cm" data-he="ימים עד שבועות" data-en="Days to Weeks">ימים עד שבועות</div></div>
+          <div class="cmp-row"><div class="ct" data-he="ידע טכני" data-en="Technical Knowledge">ידע טכני</div><div class="cu" data-he="אפס" data-en="Zero">אפס</div><div class="cm" data-he="DIY: הרבה" data-en="DIY: A lot">DIY: הרבה</div></div>
+          <div class="cmp-row"><div class="ct" data-he="עקביות" data-en="Consistency">עקביות</div><div class="cu" data-he="תמיד זהה" data-en="Always Identical">תמיד זהה</div><div class="cm" data-he="משתנה" data-en="Varies">משתנה</div></div>
+          <div class="cmp-row"><div class="ct" data-he="כתיבת טקסט" data-en="Script Writing">כתיבת טקסט</div><div class="cu" data-he="כן, כלול" data-en="Yes, Included">כן, כלול</div><div class="cm" data-he="בתוספת גדולה" data-en="At high extra cost">בתוספת גדולה</div></div>
+          <div class="cmp-row"><div class="ct" data-he="שקיפות" data-en="Transparency">שקיפות</div><div class="cu" data-he="100% AI, גאים" data-en="100% AI, Proud">100% AI, גאים</div><div class="cm" data-he="לא תמיד" data-en="Not Always">לא תמיד</div></div>
         </div>
       </div>
     </div>
@@ -715,50 +721,50 @@ section h2{line-height:1.05}
 <section class="pricing" id="pricing">
   <div class="wrap">
     <div style="text-align:center" data-r>
-      <div class="eyebrow" style="justify-content:center">מחירים</div>
-      <h2 class="ptitle">פשוט. שקוף. <span style="color:var(--red)">מנצח.</span></h2>
-      <p style="color:var(--mute);font-size:.95rem">מה שכתוב זה מה שמשלמים. בלי כוכביות, בלי הפתעות.</p>
+      <div class="eyebrow" style="justify-content:center" data-he="מחירים" data-en="Pricing">מחירים</div>
+      <h2 class="ptitle" data-he="פשוט. שקוף. <span style="color:var(--red)">מנצח.</span>" data-en="Simple. Transparent. <span style='color:var(--red)'>Winning.</span>">פשוט. שקוף. <span style="color:var(--red)">מנצח.</span></h2>
+      <p style="color:var(--mute);font-size:.95rem" data-he="מה שכתוב זה מה שמשלמים. בלי כוכביות, בלי הפתעות." data-en="What's written is what you pay. No asterisks, no surprises.">מה שכתוב זה מה שמשלמים. בלי כוכביות, בלי הפתעות.</p>
     </div>
     <div class="pplans">
       <div class="plan" data-r data-d="1">
-        <div class="plan-tier">בסיסי</div>
+        <div class="plan-tier" data-he="בסיסי" data-en="Basic">בסיסי</div>
         <div class="plan-price"><span class="p-cur">₪</span><span class="p-amt">99</span></div>
-        <div class="plan-sub">עד 250 מילים · אספקה תוך 24 שעות</div>
+        <div class="plan-sub" data-he="עד 250 מילים · אספקה תוך 24 שעות" data-en="Up to 250 words · Delivery within 24 hours">עד 250 מילים · אספקה תוך 24 שעות</div>
         <div class="plan-fs">
-          <div class="pf"><span class="pf-ck"></span><span>MP3 איכות גבוהה</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>קול אחד לבחירה</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>תיקון אחד כלול</span></div>
-          <div class="pf off"><span class="pf-ck"></span><span>כתיבת טקסט</span></div>
-          <div class="pf off"><span class="pf-ck"></span><span>גרסאות נוספות</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="MP3 איכות גבוהה" data-en="High-Quality MP3">MP3 איכות גבוהה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="קול אחד לבחירה" data-en="One Voice of Choice">קול אחד לבחירה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="תיקון אחד כלול" data-en="One Revision Included">תיקון אחד כלול</span></div>
+          <div class="pf off"><span class="pf-ck"></span><span data-he="כתיבת טקסט" data-en="Script Writing">כתיבת טקסט</span></div>
+          <div class="pf off"><span class="pf-ck"></span><span data-he="גרסאות נוספות" data-en="Additional Versions">גרסאות נוספות</span></div>
         </div>
-        <button class="plan-btn pb-out" onclick="location.href='#order'">בחרו בסיסי</button>
+        <button class="plan-btn pb-out" onclick="location.href='#order'" data-he="בחרו בסיסי" data-en="Choose Basic">בחרו בסיסי</button>
       </div>
       <div class="plan hot" data-r data-d="2">
-        <div class="plan-pill">הכי פופולרי</div>
-        <div class="plan-tier">סטנדרט</div>
+        <div class="plan-pill" data-he="הכי פופולרי" data-en="Most Popular">הכי פופולרי</div>
+        <div class="plan-tier" data-he="סטנדרט" data-en="Standard">סטנדרט</div>
         <div class="plan-price"><span class="p-cur">₪</span><span class="p-amt" style="color:var(--red)">199</span></div>
-        <div class="plan-sub">עד 600 מילים · אספקה תוך 12 שעות</div>
+        <div class="plan-sub" data-he="עד 600 מילים · אספקה תוך 12 שעות" data-en="Up to 600 words · Delivery within 12 hours">עד 600 מילים · אספקה תוך 12 שעות</div>
         <div class="plan-fs">
-          <div class="pf"><span class="pf-ck"></span><span>MP3 + WAV סטודיו</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>קול + עריכה קלה</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>תיקון אחד כלול</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>כתיבת טקסט (+₪49)</span></div>
-          <div class="pf off"><span class="pf-ck"></span><span>גרסאות נוספות</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="MP3 + WAV סטודיו" data-en="MP3 + Studio WAV">MP3 + WAV סטודיו</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="קול + עריכה קלה" data-en="Voice + Light Editing">קול + עריכה קלה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="תיקון אחד כלול" data-en="One Revision Included">תיקון אחד כלול</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="כתיבת טקסט (+₪49)" data-en="Script Writing (+₪49)">כתיבת טקסט (+₪49)</span></div>
+          <div class="pf off"><span class="pf-ck"></span><span data-he="גרסאות נוספות" data-en="Additional Versions">גרסאות נוספות</span></div>
         </div>
-        <button class="plan-btn pb-solid" onclick="location.href='#order'">בחרו סטנדרט</button>
+        <button class="plan-btn pb-solid" onclick="location.href='#order'" data-he="בחרו סטנדרט" data-en="Choose Standard">בחרו סטנדרט</button>
       </div>
       <div class="plan" data-r data-d="3">
-        <div class="plan-tier">פרימיום</div>
+        <div class="plan-tier" data-he="פרימיום" data-en="Premium">פרימיום</div>
         <div class="plan-price"><span class="p-cur">₪</span><span class="p-amt">399</span></div>
-        <div class="plan-sub">עד 1500 מילים · אספקה תוך 6 שעות</div>
+        <div class="plan-sub" data-he="עד 1500 מילים · אספקה תוך 6 שעות" data-en="Up to 1,500 words · Delivery within 6 hours">עד 1500 מילים · אספקה תוך 6 שעות</div>
         <div class="plan-fs">
           <div class="pf"><span class="pf-ck"></span><span>MP3 + WAV + RAW</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>עד 3 גרסאות קול</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>תיקונים מרובים</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>כתיבת טקסט כלולה</span></div>
-          <div class="pf"><span class="pf-ck"></span><span>עדיפות בתור</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="עד 3 גרסאות קול" data-en="Up to 3 Voice Versions">עד 3 גרסאות קול</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="תיקונים מרובים" data-en="Multiple Revisions">תיקונים מרובים</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="כתיבת טקסט כלולה" data-en="Script Writing Included">כתיבת טקסט כלולה</span></div>
+          <div class="pf"><span class="pf-ck"></span><span data-he="עדיפות בתור" data-en="Queue Priority">עדיפות בתור</span></div>
         </div>
-        <button class="plan-btn pb-out" onclick="location.href='#order'">בחרו פרימיום</button>
+        <button class="plan-btn pb-out" onclick="location.href='#order'" data-he="בחרו פרימיום" data-en="Choose Premium">בחרו פרימיום</button>
       </div>
     </div>
   </div>
@@ -768,8 +774,8 @@ section h2{line-height:1.05}
 <section class="testi" id="reviews">
   <div class="wrap">
     <div data-r>
-      <div class="eyebrow">לקוחות מדברים</div>
-      <h2 style="font-size:clamp(1.9rem,4vw,3rem);font-weight:900;letter-spacing:-.03em">הם ניסו.<br><span style="color:var(--red)">הם יודעים.</span></h2>
+      <div class="eyebrow" data-he="לקוחות מדברים" data-en="What Clients Say">לקוחות מדברים</div>
+      <h2 style="font-size:clamp(1.9rem,4vw,3rem);font-weight:900;letter-spacing:-.03em" data-he="הם ניסו.<br><span style="color:var(--red)">הם יודעים.</span>" data-en="They Tried.<br><span style='color:var(--red)'>They Know.</span>">הם ניסו.<br><span style="color:var(--red)">הם יודעים.</span></h2>
     </div>
     <div class="tgrid">
       <div class="tc" data-r data-d="1"><div class="tc-qm">"</div><div class="tc-stars">★★★★★</div><p class="tc-txt">קיבלתי קריינות לסרטון תדמית תוך 5 שעות. שמתי אותה מיד על האתר בלי עריכה. הלקוחות שלי שאלו אם שכרתי שחקן קול.</p><div class="tc-au"><div class="tc-av">ד</div><div><div class="tc-name">דן לוי</div><div class="tc-role">Studio Creative</div></div></div></div>
@@ -784,18 +790,18 @@ section h2{line-height:1.05}
   <div class="wrap">
     <div class="faq-grid">
       <div class="faq-l" data-r>
-        <div class="eyebrow">שאלות</div>
-        <h2>יש שאלות?<br><span style="color:var(--red)">יש תשובות.</span></h2>
-        <p>לא מצאתם מה שחיפשתם? אנחנו כאן.</p>
-        <button class="faq-cta" onclick="location.href='#order'">דברו איתנו →</button>
+        <div class="eyebrow" data-he="שאלות" data-en="Questions">שאלות</div>
+        <h2 data-he="יש שאלות?<br><span style="color:var(--red)">יש תשובות.</span>" data-en="Got Questions?<br><span style='color:var(--red)'>Got Answers.</span>">יש שאלות?<br><span style="color:var(--red)">יש תשובות.</span></h2>
+        <p data-he="לא מצאתם מה שחיפשתם? אנחנו כאן." data-en="Didn't find what you're looking for? We're here.">לא מצאתם מה שחיפשתם? אנחנו כאן.</p>
+        <button class="faq-cta" onclick="location.href='#order'" data-he="דברו איתנו →" data-en="Contact Us →">דברו איתנו →</button>
       </div>
       <div class="faq-items" data-r data-d="2">
-        <div class="faq-item"><div class="faq-q">האם הקריינות נשמעת אנושית?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">כן. הטכנולוגיה שבה אנחנו משתמשים מייצרת קול טבעי שנשמע אנושי. כל תוצר עובר בדיקה ידנית לפני שנשלח.</div></div></div>
-        <div class="faq-item"><div class="faq-q">כמה זמן עד שמקבלים את הקובץ?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">בסיסי: עד 24 שעות. סטנדרט: עד 12 שעות. פרימיום: עד 6 שעות. ברוב המקרים הרבה לפני.</div></div></div>
-        <div class="faq-item"><div class="faq-q">מה אם אין לי טקסט מוכן?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">אין בעיה. בסטנדרט ניתן להוסיף כתיבה ב-₪49. בפרימיום כלולה. כותבים, שולחים לאישורכם, ורק אז מייצרים.</div></div></div>
-        <div class="faq-item"><div class="faq-q">באיזה פורמט מקבלים את הקובץ?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">בסיסי: MP3. סטנדרט: MP3 + WAV. פרימיום: MP3 + WAV + RAW לעריכה. הכל ברמת סטודיו.</div></div></div>
-        <div class="faq-item"><div class="faq-q">האם ניתן לבקש תיקונים?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">כן — תיקון אחד כלול בכל חבילה. אם הטקסט לא השתנה ויש בעיה בביצוע — מתקנים ללא עלות.</div></div></div>
-        <div class="faq-item"><div class="faq-q">האם ניתן להשתמש לצרכים מסחריים?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai">בהחלט. כל הקבצים הם בבעלותכם המלאה — לכל מטרה מסחרית ללא הגבלה.</div></div></div>
+        <div class="faq-item"><div class="faq-q" data-he="האם הקריינות נשמעת אנושית?" data-en="Does the voiceover sound human?">האם הקריינות נשמעת אנושית?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai" data-he="כן. הטכנולוגיה שבה אנחנו משתמשים מייצרת קול טבעי שנשמע אנושי. כל תוצר עובר בדיקה ידנית לפני שנשלח." data-en="Yes. The technology we use produces natural-sounding human voice. Every output is manually checked before sending.">כן. הטכנולוגיה שבה אנחנו משתמשים מייצרת קול טבעי שנשמע אנושי. כל תוצר עובר בדיקה ידנית לפני שנשלח.</div></div></div>
+        <div class="faq-item"><div class="faq-q" data-he="כמה זמן עד שמקבלים את הקובץ?" data-en="How long until I receive the file?">כמה זמן עד שמקבלים את הקובץ?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai" data-he="בסיסי: עד 24 שעות. סטנדרט: עד 12 שעות. פרימיום: עד 6 שעות. ברוב המקרים הרבה לפני." data-en="Basic: up to 24 hours. Standard: up to 12 hours. Premium: up to 6 hours. Most cases, much sooner.">בסיסי: עד 24 שעות. סטנדרט: עד 12 שעות. פרימיום: עד 6 שעות. ברוב המקרים הרבה לפני.</div></div></div>
+        <div class="faq-item"><div class="faq-q" data-he="מה אם אין לי טקסט מוכן?" data-en="What if I don't have a script ready?">מה אם אין לי טקסט מוכן?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai" data-he="אין בעיה. בסטנדרט ניתן להוסיף כתיבה ב-₪49. בפרימיום כלולה. כותבים, שולחים לאישורכם, ורק אז מייצרים." data-en="No problem. Standard allows writing for ₪49 extra. Premium includes it. We write, send for approval, then produce.">אין בעיה. בסטנדרט ניתן להוסיף כתיבה ב-₪49. בפרימיום כלולה. כותבים, שולחים לאישורכם, ורק אז מייצרים.</div></div></div>
+        <div class="faq-item"><div class="faq-q" data-he="באיזה פורמט מקבלים את הקובץ?" data-en="What format do I receive?">באיזה פורמט מקבלים את הקובץ?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai" data-he="בסיסי: MP3. סטנדרט: MP3 + WAV. פרימיום: MP3 + WAV + RAW לעריכה. הכל ברמת סטודיו." data-en="Basic: MP3. Standard: MP3 + WAV. Premium: MP3 + WAV + RAW for editing. All at studio quality.">בסיסי: MP3. סטנדרט: MP3 + WAV. פרימיום: MP3 + WAV + RAW לעריכה. הכל ברמת סטודיו.</div></div></div>
+        <div class="faq-item"><div class="faq-q" data-he="האם ניתן לבקש תיקונים?" data-en="Can I request revisions?">האם ניתן לבקש תיקונים?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai" data-he="כן — תיקון אחד כלול בכל חבילה. אם הטקסט לא השתנה ויש בעיה בביצוע — מתקנים ללא עלות." data-en="Yes — one revision included in every package. If the text hasn't changed and there's an execution issue — we fix for free.">כן — תיקון אחד כלול בכל חבילה. אם הטקסט לא השתנה ויש בעיה בביצוע — מתקנים ללא עלות.</div></div></div>
+        <div class="faq-item"><div class="faq-q" data-he="האם ניתן להשתמש לצרכים מסחריים?" data-en="Can I use it for commercial purposes?">האם ניתן להשתמש לצרכים מסחריים?<span class="faq-ic">+</span></div><div class="faq-a"><div class="faq-ai" data-he="בהחלט. כל הקבצים הם בבעלותכם המלאה — לכל מטרה מסחרית ללא הגבלה." data-en="Absolutely. All files are fully yours — for any commercial purpose without restrictions.">בהחלט. כל הקבצים הם בבעלותכם המלאה — לכל מטרה מסחרית ללא הגבלה.</div></div></div>
       </div>
     </div>
   </div>
@@ -808,16 +814,16 @@ section h2{line-height:1.05}
   <div class="ctaf-orb" aria-hidden="true"></div>
   <div class="ctaf-orb2" aria-hidden="true"></div>
   <div class="wrap" style="position:relative">
-    <div data-r><h2>מוכנים לשמוע<br><span style="color:var(--red)">את המסר שלכם?</span></h2></div>
-    <p data-r data-d="1">בחרו קריין, שלחו טקסט — ותוך שעות הקריינות אצלכם.</p>
+    <div data-r><h2 data-he="מוכנים לשמוע<br><span style="color:var(--red)">את המסר שלכם?</span>" data-en="Ready to Hear<br><span style='color:var(--red)'>Your Message?</span>">מוכנים לשמוע<br><span style="color:var(--red)">את המסר שלכם?</span></h2></div>
+    <p data-r data-d="1" data-he="בחרו קריין, שלחו טקסט — ותוך שעות הקריינות אצלכם." data-en="Choose a voice actor, send text — and within hours, the voiceover is yours.">בחרו קריין, שלחו טקסט — ותוך שעות הקריינות אצלכם.</p>
     <div class="ctaf-btns" data-r data-d="2">
       <button class="btn-xl btn-xl-red" onclick="document.getElementById('voices').scrollIntoView({behavior:'smooth'})">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        שמעו את הקולות
+        <span data-he="שמעו את הקולות" data-en="Hear the Voices">שמעו את הקולות</span>
       </button>
       <a href="https://wa.me/972528028988" target="_blank" class="btn-xl btn-xl-ghost">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        וואטסאפ
+        <span data-he="וואטסאפ" data-en="WhatsApp">וואטסאפ</span>
       </a>
     </div>
   </div>
@@ -1096,6 +1102,13 @@ function toggleLang(){
   html.setAttribute('dir',isEn?'ltr':'rtl');
   const btn=document.getElementById('lang-tgl');
   if(btn){btn.textContent=isEn?'HE':'EN';btn.classList.toggle('on',isEn);}
+  document.querySelectorAll('[data-he]').forEach(el=>{
+    if(isEn&&el.dataset.en){el.innerHTML=el.dataset.en;}
+    else if(!isEn&&el.dataset.he){el.innerHTML=el.dataset.he;}
+    else if(el.dataset.orig){
+      el.innerHTML=isEn?el.dataset.en||el.dataset.orig:el.dataset.he||el.dataset.orig;
+    }
+  });
   document.querySelectorAll('[data-he][data-en]').forEach(el=>{
     const txt=isEn?el.dataset.en:el.dataset.he;
     if(txt!==undefined){
@@ -1103,6 +1116,19 @@ function toggleLang(){
       else if(el.tagName==='OPTION'){el.textContent=txt;}
       else{el.textContent=txt;}
     }
+  });
+  document.querySelectorAll('.eyebrow').forEach(el=>{
+    const orig=el.dataset.orig||el.textContent.trim();
+    if(!el.dataset.orig)el.dataset.orig=orig;
+    el.textContent=isEn?
+      (el.dataset.en||orig):
+      (el.dataset.he||orig);
+  });
+}
+  });
+  document.querySelectorAll('select option').forEach(opt=>{
+    if(isEn&&opt.dataset.en)opt.textContent=opt.dataset.en;
+    else if(!isEn&&opt.dataset.he)opt.textContent=opt.dataset.he;
   });
 }
 
