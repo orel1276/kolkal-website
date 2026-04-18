@@ -395,28 +395,52 @@ body.light .form-field input,body.light .form-field select,body.light .form-fiel
 .tgl-btn:hover,.tgl-btn.on{border-color:rgba(233,69,96,.5);color:var(--red);background:rgba(233,69,96,.09)}
 @media(max-width:640px){.nav-toggles{display:none}}
 
-/* ── WHATSAPP FAB ── */
-.wa-fab{position:fixed;top:50%;left:1.4rem;transform:translateY(-50%);z-index:590;display:flex;align-items:center;gap:.55rem;background:#25D366;color:#fff;border:none;border-radius:99px;padding:.7rem 1.2rem .7rem .85rem;font-family:'Heebo',sans-serif;font-weight:800;font-size:.82rem;cursor:pointer;box-shadow:0 6px 24px rgba(37,211,102,.38);transition:all .35s;text-decoration:none;white-space:nowrap}
-.wa-fab svg{width:20px;height:20px;fill:#fff;flex-shrink:0}
-.wa-fab:hover{background:#1db954;transform:translateY(-50%) scale(1.07);box-shadow:0 10px 36px rgba(37,211,102,.55)}
-@media(max-width:640px){.wa-fab .wa-label{display:none}.wa-fab{padding:.72rem;border-radius:50%;left:1rem;top:auto;bottom:6.5rem;transform:none}.wa-fab:hover{transform:scale(1.07)}}
+/* ── WHATSAPP NAV BUTTON ── */
+.wa-nav-btn{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#25D366;border-radius:50%;transition:all .3s;box-shadow:0 4px 14px rgba(37,211,102,.3)}
+.wa-nav-btn:hover{background:#1db954;transform:scale(1.1);box-shadow:0 6px 22px rgba(37,211,102,.5)}
 
-/* ── STUDIO ANIMATION ── */
-.studio-wrap{position:absolute;inset-inline-start:4%;top:50%;transform:translateY(-50%);z-index:2;width:min(340px,38vw);pointer-events:none}
+/* ── STUDIO ANIMATION: Person with headphones ── */
+.studio-wrap{position:absolute;inset-inline-start:3%;top:50%;transform:translateY(-50%);z-index:2;width:min(420px,40vw);pointer-events:none}
+@media(max-width:1024px){.studio-wrap{width:min(320px,32vw}}
 @media(max-width:900px){.studio-wrap{display:none}}
-.studio-mic-area{position:relative;display:flex;align-items:center;justify-content:center;height:260px}
-.mic-ring{position:absolute;border-radius:50%;border:1px solid rgba(233,69,96,.5);animation:mring 2.8s ease-out infinite}
-.mic-ring:nth-child(1){width:80px;height:80px;animation-delay:0s}
-.mic-ring:nth-child(2){width:140px;height:140px;animation-delay:.7s}
-.mic-ring:nth-child(3){width:200px;height:200px;animation-delay:1.4s}
-.mic-ring:nth-child(4){width:260px;height:260px;animation-delay:2.1s}
-@keyframes mring{0%{opacity:.7;transform:scale(.9)}100%{opacity:0;transform:scale(1.05)}}
-.mic-svg{position:relative;z-index:2;filter:drop-shadow(0 0 18px rgba(233,69,96,.4))}
-.rec-dot{width:10px;height:10px;background:var(--red);border-radius:50%;position:absolute;top:8px;right:8px;animation:bd 1.2s infinite}
-.studio-bars{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:50px;margin-top:1.2rem;padding:0 1rem;opacity:.7}
-.sbar{width:4px;border-radius:4px;background:linear-gradient(180deg,var(--red),rgba(233,69,96,.25));animation:sanim 1.3s ease-in-out infinite}
-.sbar:nth-child(1){height:15px}.sbar:nth-child(2){height:30px;animation-delay:.1s}.sbar:nth-child(3){height:44px;animation-delay:.2s}.sbar:nth-child(4){height:28px;animation-delay:.3s}.sbar:nth-child(5){height:40px;animation-delay:.4s}.sbar:nth-child(6){height:22px;animation-delay:.5s}.sbar:nth-child(7){height:36px;animation-delay:.6s}.sbar:nth-child(8){height:18px;animation-delay:.7s}.sbar:nth-child(9){height:32px;animation-delay:.8s}.sbar:nth-child(10){height:14px;animation-delay:.9s}.sbar:nth-child(11){height:26px;animation-delay:1s}.sbar:nth-child(12){height:38px;animation-delay:1.1s}
-@keyframes sanim{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.18)}}
+.studio-scene{position:relative;width:100%;height:380px}
+.studio-desk{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:85%;height:35px;background:linear-gradient(180deg,#1a1a2e,#12121f);border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.studio-monitor{position:absolute;bottom:35px;background:#0a0a14;border:2px solid #252540;border-radius:8px;padding:6px;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.studio-monitor:nth-child(1){left:5%;width:120px;height:85px;animation:mfloat 3s ease-in-out infinite}
+.studio-monitor:nth-child(2){left:50%;transform:translateX(-50%) translateY(0);width:140px;height:95px;animation:mfloat 3s ease-in-out infinite .3s}
+.studio-monitor:nth-child(3){right:5%;width:120px;height:85px;animation:mfloat 3s ease-in-out infinite .6s}
+@keyframes mfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.monitor-screen{width:100%;height:100%;background:linear-gradient(135deg,#0d0d1a,#151528);border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.studio-monitor:nth-child(2) .monitor-screen{background:linear-gradient(135deg,#1a0a12,#1a0a12);border:1px solid rgba(233,69,96,.3)}
+.wave-vis{width:90%;height:50%;display:flex;align-items:center;justify-content:center;gap:3px}
+.wv{width:3px;background:var(--red);border-radius:3px;animation:wavedance 1.2s ease-in-out infinite}
+.wv:nth-child(1){height:40%}.wv:nth-child(2){height:70%;animation-delay:.1s}.wv:nth-child(3){height:100%;animation-delay:.2s}.wv:nth-child(4){height:80%;animation-delay:.3s}.wv:nth-child(5){height:50%;animation-delay:.4s}.wv:nth-child(6){height:90%;animation-delay:.5s}.wv:nth-child(7){height:60%;animation-delay:.6s}.wv:nth-child(8){height:40%;animation-delay:.7s}
+@keyframes wavedance{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.3)}}
+.monitor-text{font-size:7px;color:rgba(233,69,96,.5);font-family:monospace}
+.studio-mic-stand{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);width:6px;height:100px;background:linear-gradient(180deg,#333,#1a1a2e)}
+.studio-mic{position:absolute;bottom:130px;left:50%;transform:translateX(-50%);width:24px;height:40px;background:linear-gradient(180deg,var(--red),#c73090);border-radius:12px 12px 6px 6px;box-shadow:0 0 20px rgba(233,69,96,.4);animation:micglow 2s ease-in-out infinite}
+.studio-mic::before{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:10px;height:8px;background:#888;border-radius:4px 4px 0 0}
+.mic-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid rgba(233,69,96,.4);animation:mring 2.5s ease-out infinite}
+.mic-ring:nth-child(1){width:50px;height:50px;animation-delay:0s}.mic-ring:nth-child(2){width:80px;height:80px;animation-delay:.6s}.mic-ring:nth-child(3){width:110px;height:110px;animation-delay:1.2s}
+@keyframes mring{0%{opacity:.6;transform:translate(-50%,-50%) scale(.8)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.1)}}
+@keyframes micglow{0%,100%{box-shadow:0 0 20px rgba(233,69,96,.4)}50%{box-shadow:0 0 35px rgba(233,69,96,.7)}}
+.studio-person{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);width:70px;height:95px}
+.person-body{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:50px;height:55px;background:linear-gradient(180deg,#2a2a45,#1f1f35);border-radius:8px 8px 4px 4px}
+.person-head{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);width:38px;height:38px;background:linear-gradient(135deg,#f5d0c5,#e8b8a8);border-radius:50%}
+.person-hair{position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:40px;height:20px;background:#2a1810;border-radius:50% 50% 0 0}
+.person-ear{position:absolute;top:12px;width:8px;height:12px;background:#e8b8a8;border-radius:50%}
+.person-ear.left{left:-3px}.person-ear.right{right:-3px}
+.headphones{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:50px;height:26px;border:4px solid #333;border-radius:50%;background:transparent;border-top:none}
+.headphones::before,.headphones::after{content:'';position:absolute;top:8px;width:10px;height:14px;background:#222;border-radius:4px}
+.headphones::before{left:-8px}.headphones::after{right:-8px}
+.rec-light{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--red);border-radius:50%;animation:blinkrec .8s infinite}
+@keyframes blinkrec{0%,100%{opacity:1}50%{opacity:.3}}
+.studio-chair{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60px;height:15px;background:#1a1a2e;border-radius:4px}
+.studio-bars{display:flex;align-items:flex-end;justify-content:center;gap:4px;height:35px;margin-top:.8rem;padding:0 1rem;opacity:.6}
+.sbar{width:3px;border-radius:3px;background:linear-gradient(180deg,var(--red),rgba(233,69,96,.25));animation:sanim 1.3s ease-in-out infinite}
+.sbar:nth-child(1){height:10px}.sbar:nth-child(2){height:22px;animation-delay:.1s}.sbar:nth-child(3){height:32px;animation-delay:.2s}.sbar:nth-child(4){height:20px;animation-delay:.3s}.sbar:nth-child(5){height:28px;animation-delay:.4s}.sbar:nth-child(6){height:16px;animation-delay:.5s}.sbar:nth-child(7){height:24px;animation-delay:.6s}.sbar:nth-child(8){height:14px;animation-delay:.7s}
+@keyframes sanim{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.2)}}
+.led-strip{position:absolute;top:10px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),rgba(233,69,96,.3),transparent,rgba(233,69,96,.3),var(--red));opacity:.4}
 
 /* ── LUXURY: SHINY CARDS ── */
 .vc,.plan,.tc{isolation:isolate}
@@ -487,12 +511,6 @@ section h2{line-height:1.05}
 <div id="curl"></div>
 <div id="grain" aria-hidden="true"></div>
 
-<!-- ══ WHATSAPP FAB ══ -->
-<a class="wa-fab" href="https://wa.me/972528028988" target="_blank" rel="noopener" aria-label="שלחו הודעה בוואטסאפ">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  <span class="wa-label" data-he="דברו איתי" data-en="Talk to me">דברו איתי</span>
-</a>
-
 <!-- ══ NAV ══ -->
 <nav id="nav">
   <a class="logo" href="#">Kol<span style="color:var(--red)">Kal</span><span class="logo-dot"></span></a>
@@ -506,6 +524,9 @@ section h2{line-height:1.05}
     <button class="tgl-btn" id="theme-tgl" onclick="toggleTheme()" title="מצב בהיר/כהה">☀</button>
     <button class="tgl-btn" id="lang-tgl" onclick="toggleLang()" title="English / עברית">EN</button>
   </div>
+  <a class="wa-nav-btn" href="https://wa.me/972528028988" target="_blank" rel="noopener" data-he="דברו איתי" data-en="Talk to me">
+    <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a3.178 3.178 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
   <button class="nav-btn" onclick="location.href='#order-form'" data-he="להזמנה ←" data-en="Order →">להזמנה ←</button>
   <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
@@ -522,21 +543,37 @@ section h2{line-height:1.05}
   <canvas id="cvs"></canvas>
   <div class="hero-mesh" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
-  <!-- Studio animation -->
+  <!-- Studio animation: Person with headphones in recording booth -->
   <div class="studio-wrap" aria-hidden="true">
-    <div class="studio-mic-area">
-      <div class="mic-ring"></div><div class="mic-ring"></div><div class="mic-ring"></div><div class="mic-ring"></div>
-      <svg class="mic-svg" width="80" height="120" viewBox="0 0 80 120" fill="none">
-        <rect x="28" y="4" width="24" height="54" rx="12" fill="rgba(233,69,96,.9)" stroke="rgba(233,69,96,.4)" stroke-width="1.5"/>
-        <path d="M16 52c0 13.25 10.745 24 24 24s24-10.75 24-24" stroke="rgba(233,69,96,.7)" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="40" y1="76" x2="40" y2="96" stroke="rgba(233,69,96,.7)" stroke-width="2.5" stroke-linecap="round"/>
-        <rect x="20" y="96" width="40" height="4" rx="2" fill="rgba(233,69,96,.6)"/>
-        <circle cx="40" cy="20" r="4" fill="rgba(255,255,255,.3)"/>
-      </svg>
-      <div class="rec-dot"></div>
+    <div class="studio-scene">
+      <div class="led-strip"></div>
+      <!-- Monitors -->
+      <div class="studio-monitor"><div class="monitor-screen"><span class="monitor-text">SESS-001</span></div></div>
+      <div class="studio-monitor"><div class="monitor-screen"><div class="wave-vis"><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div><div class="wv"></div></div></div></div>
+      <div class="studio-monitor"><div class="monitor-screen"><span class="monitor-text">REC ●</span></div></div>
+      <!-- Person with headphones -->
+      <div class="studio-person">
+        <div class="person-head">
+          <div class="person-hair"></div>
+          <div class="person-ear left"></div>
+          <div class="person-ear right"></div>
+          <div class="headphones"></div>
+          <div class="rec-light"></div>
+        </div>
+        <div class="person-body"></div>
+        <div class="studio-chair"></div>
+      </div>
+      <!-- Microphone -->
+      <div class="studio-mic-stand"></div>
+      <div class="studio-mic">
+        <div class="mic-ring"></div>
+        <div class="mic-ring"></div>
+        <div class="mic-ring"></div>
+      </div>
+      <!-- Desk -->
+      <div class="studio-desk"></div>
     </div>
     <div class="studio-bars">
-      <div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div>
       <div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div>
       <div class="sbar"></div><div class="sbar"></div><div class="sbar"></div><div class="sbar"></div>
     </div>
